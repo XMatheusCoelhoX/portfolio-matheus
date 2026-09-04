@@ -1580,7 +1580,7 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
   if(!nameEl || !tagEl) return;
 
   function fitName(){
-    if(window.innerWidth < 640){ nameEl.style.fontSize = ''; return; }
+    if(window.innerWidth <= 768){ nameEl.style.fontSize = ''; return; }
     const REF = 100;
     nameEl.style.fontSize = REF + 'px';
     const natural = nameEl.scrollWidth;
