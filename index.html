@@ -107,6 +107,67 @@ body{
   .awp-target::after{animation:none;}
   .awp-target{transition:none;}
 }
+
+/* RED TEAM LIVE PANEL */
+.rt-panel{
+  position:fixed;right:1.25rem;bottom:1.25rem;z-index:70;
+  width:380px;max-width:calc(100vw - 2rem);
+  background:rgba(9,10,9,.92);backdrop-filter:blur(10px);
+  border:1px solid rgba(57,255,20,.28);border-radius:6px;
+  box-shadow:0 10px 40px rgba(0,0,0,.55),0 0 22px rgba(57,255,20,.08);
+  font-family:'JetBrains Mono',monospace;
+  overflow:hidden;
+}
+.rt-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.6rem .85rem;border-bottom:1px solid rgba(57,255,20,.2);
+  background:linear-gradient(90deg,rgba(57,255,20,.06),transparent 60%);
+  cursor:default;
+}
+.rt-head-l{display:flex;align-items:center;gap:.55rem;}
+.rt-dot{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 6px var(--acc);animation:blink 1.8s infinite;}
+.rt-title{font-size:.68rem;color:var(--gray);letter-spacing:.03em;}
+.rt-head-r{display:flex;align-items:center;gap:.5rem;}
+.rt-badge{
+  font-size:.55rem;letter-spacing:.1em;color:var(--acc);
+  border:1px solid rgba(57,255,20,.35);border-radius:2px;padding:.2rem .5rem;
+  transition:color .3s,border-color .3s;white-space:nowrap;
+}
+.rt-badge.warn{color:#ffd23f;border-color:rgba(255,210,63,.4);}
+.rt-badge.crit{color:#ff4747;border-color:rgba(255,71,71,.45);}
+.rt-badge.win{color:#fff;border-color:#fff;background:rgba(57,255,20,.12);text-shadow:0 0 8px rgba(255,255,255,.6);}
+.rt-btn{
+  background:transparent;border:1px solid var(--line);color:var(--dim);
+  width:20px;height:20px;border-radius:2px;font-size:.65rem;line-height:1;
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;
+}
+.rt-btn:hover{color:var(--acc);border-color:rgba(57,255,20,.4);}
+.rt-body{max-height:260px;transition:max-height .3s ease,opacity .3s ease;overflow:hidden;}
+.rt-panel.minimized .rt-body{max-height:0;opacity:0;}
+.rt-log{
+  height:260px;overflow-y:auto;padding:.75rem .9rem;
+  font-size:.66rem;line-height:1.65;
+}
+.rt-log::-webkit-scrollbar{width:5px;}
+.rt-log::-webkit-scrollbar-thumb{background:rgba(57,255,20,.25);border-radius:3px;}
+.rt-line{white-space:pre-wrap;word-break:break-word;opacity:0;transform:translateY(4px);animation:rtIn .25s ease forwards;}
+.rt-line .rt-t{color:var(--dim);}
+.rt-line.info{color:#9adf8f;}
+.rt-line.ok{color:var(--acc);}
+.rt-line.warn{color:#ffd23f;}
+.rt-line.crit{color:#ff5c5c;}
+.rt-line.muted{color:var(--dim);}
+.rt-line.win{color:#fff;text-shadow:0 0 6px rgba(255,255,255,.5);font-weight:600;}
+.rt-cursor{display:inline-block;width:6px;height:11px;background:var(--acc);margin-left:2px;vertical-align:-1px;animation:blink 1s steps(1) infinite;}
+@keyframes rtIn{to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:640px){
+  .rt-panel{left:.75rem;right:.75rem;bottom:.75rem;width:auto;}
+}
+@media (prefers-reduced-motion: reduce){
+  .rt-line{animation:none;opacity:1;transform:none;}
+  .rt-dot,.rt-cursor{animation:none;}
+}
 .ch-circle{
   position:absolute;top:2px;left:2px;width:40px;height:40px;
   border:1px solid rgba(57,255,20,.4);border-radius:50%;
@@ -477,6 +538,23 @@ footer span{color:var(--acc);}
   <div class="ch-tick t3"></div>
   <div class="ch-tick t4"></div>
   <div class="ch-dot"></div>
+</div>
+
+<div class="rt-panel" id="rt-panel">
+  <div class="rt-head" id="rt-head">
+    <div class="rt-head-l">
+      <span class="rt-dot"></span>
+      <span class="rt-title">redteam@insane</span>
+    </div>
+    <div class="rt-head-r">
+      <span class="rt-badge" id="rt-badge">INICIANDO</span>
+      <button class="rt-btn" id="rt-restart" title="Reiniciar simulação" type="button">↻</button>
+      <button class="rt-btn" id="rt-min" title="Minimizar" type="button">—</button>
+    </div>
+  </div>
+  <div class="rt-body" id="rt-body">
+    <div class="rt-log" id="rt-log"></div>
+  </div>
 </div>
 
 <!-- NAV -->
@@ -1080,6 +1158,102 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
     muzzleFlash();
     spawnBulletHole(e.clientX, e.clientY);
   });
+})();
+
+// RED TEAM LIVE PANEL — simulated recon-to-domain-admin op (illustrative only, no real target)
+(function(){
+  const panel = document.getElementById('rt-panel');
+  const logEl = document.getElementById('rt-log');
+  const badge = document.getElementById('rt-badge');
+  const minBtn = document.getElementById('rt-min');
+  const restartBtn = document.getElementById('rt-restart');
+  if(!panel || !logEl || !badge) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const SCRIPT = [
+    { t:'info', badge:'RECON',        d:120,  m:'$ nmap -sS -p- -T4 10.10.14.22' },
+    { t:'muted',                       d:260,  m:'Starting Nmap 7.94 ( https://nmap.org )' },
+    { t:'ok',                          d:220,  m:'22/tcp   open  ssh' },
+    { t:'ok',                          d:160,  m:'80/tcp   open  http' },
+    { t:'ok',                          d:160,  m:'445/tcp  open  microsoft-ds' },
+    { t:'ok',                          d:160,  m:'3389/tcp open  ms-wbt-server' },
+    { t:'win',  badge:'ALVO IDENTIFICADO', d:420, m:'[+] Target: DC01.CORP.LOCAL (10.10.14.22)' },
+    { t:'info', badge:'ENUMERANDO',    d:320,  m:'$ enum4linux -a 10.10.14.22' },
+    { t:'ok',                          d:260,  m:'[+] Domain: CORP.LOCAL' },
+    { t:'ok',                          d:200,  m:'[+] Users enumerated: 47' },
+    { t:'info',                        d:280,  m:'$ gobuster dir -u http://10.10.14.22 -w common.txt' },
+    { t:'ok',                          d:200,  m:'[+] /admin        (Status: 200)' },
+    { t:'ok',                          d:200,  m:'[+] /upload.php   (Status: 200)' },
+    { t:'warn', badge:'EXPLORANDO',    d:420,  m:'$ crafting payload... [REDACTED]' },
+    { t:'muted',                       d:320,  m:'████████████████████░░░░  82%' },
+    { t:'info',                        d:280,  m:'[*] Uploading payload via /upload.php' },
+    { t:'ok',                          d:300,  m:'[+] Payload executed on target' },
+    { t:'crit', badge:'SHELL OBTIDA',  d:460,  m:'[+] Reverse shell received — port 4444' },
+    { t:'info',                        d:220,  m:'meterpreter > getuid' },
+    { t:'ok',                          d:260,  m:'[+] Server username: svc_web@DC01' },
+    { t:'info', badge:'ESCALANDO',     d:340,  m:'$ Invoke-Kerberoast -OutputFormat hashcat' },
+    { t:'muted',                       d:280,  m:'[*] Cracking TGS hash... [REDACTED]' },
+    { t:'ok',                          d:320,  m:'[+] Cracked: svc_backup:********' },
+    { t:'info',                        d:260,  m:'[*] svc_backup has DCSync rights' },
+    { t:'info',                        d:220,  m:'mimikatz # lsadump::dcsync /user:Administrator' },
+    { t:'win',  badge:'DOMAIN ADMIN',  d:600,  m:'[+] DOMAIN ADMIN ACHIEVED — CORP\\\\Administrator' },
+    { t:'win',                         d:0,    m:'[+] Session: ACTIVE — Access: FULL' },
+  ];
+
+  let timer = null;
+  let running = false;
+
+  function setBadge(text, cls){
+    badge.textContent = text;
+    badge.className = 'rt-badge' + (cls ? ' ' + cls : '');
+  }
+  function badgeClassFor(type){
+    if(type === 'crit') return 'crit';
+    if(type === 'warn') return 'warn';
+    if(type === 'win') return 'win';
+    return '';
+  }
+  function addLine(entry){
+    const div = document.createElement('div');
+    div.className = 'rt-line ' + entry.t;
+    div.textContent = entry.m;
+    logEl.appendChild(div);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function runStep(i){
+    if(!running) return;
+    if(i >= SCRIPT.length){
+      const cur = document.createElement('span');
+      cur.className = 'rt-cursor';
+      logEl.lastChild && logEl.lastChild.appendChild(cur);
+      timer = setTimeout(() => {
+        logEl.innerHTML = '';
+        setBadge('INICIANDO', '');
+        runStep(0);
+      }, 5500);
+      return;
+    }
+    const entry = SCRIPT[i];
+    addLine(entry);
+    if(entry.badge) setBadge(entry.badge, badgeClassFor(entry.t));
+    const delay = reduceMotion ? 40 : entry.d;
+    timer = setTimeout(() => runStep(i + 1), delay);
+  }
+
+  function start(){
+    running = true;
+    clearTimeout(timer);
+    logEl.innerHTML = '';
+    setBadge('INICIANDO', '');
+    runStep(0);
+  }
+
+  minBtn.addEventListener('click', () => panel.classList.toggle('minimized'));
+  restartBtn.addEventListener('click', start);
+
+  start();
 })();
 
 // HERO
