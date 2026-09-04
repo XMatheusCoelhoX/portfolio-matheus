@@ -254,22 +254,24 @@ nav{
 }
 
 .smoke-overlay{position:fixed;inset:0;pointer-events:none;z-index:9997;overflow:hidden;}
-.smoke-wash{position:absolute;inset:0;background:rgba(200,200,205,.5);opacity:0;}
+.smoke-wash{position:absolute;inset:0;background:rgba(205,205,210,.7);opacity:0;}
 .smoke-overlay.active .smoke-wash{animation:smokeWash 3.2s ease-in-out forwards;}
-@keyframes smokeWash{0%{opacity:0;}18%{opacity:.85;}70%{opacity:.65;}100%{opacity:0;}}
+@keyframes smokeWash{0%{opacity:0;}18%{opacity:.97;}70%{opacity:.85;}100%{opacity:0;}}
 .smoke-puff{
   position:absolute;border-radius:50%;
-  background:radial-gradient(circle,rgba(225,225,225,.92) 0%,rgba(190,190,195,.55) 45%,transparent 75%);
-  filter:blur(24px);opacity:0;
+  background:radial-gradient(circle,rgba(235,235,235,.98) 0%,rgba(200,200,205,.7) 50%,transparent 78%);
+  filter:blur(18px);opacity:0;
 }
-.smoke-overlay.active .p1{width:60vmax;height:60vmax;left:-10%;top:-10%;animation:smokeRise 3.2s ease-out forwards;}
-.smoke-overlay.active .p2{width:55vmax;height:55vmax;left:60%;top:-5%;animation:smokeRise 3.2s .1s ease-out forwards;}
-.smoke-overlay.active .p3{width:58vmax;height:58vmax;left:-5%;top:55%;animation:smokeRise 3.2s .2s ease-out forwards;}
-.smoke-overlay.active .p4{width:60vmax;height:60vmax;left:55%;top:55%;animation:smokeRise 3.2s .3s ease-out forwards;}
+.smoke-overlay.active .p1{width:85vmax;height:85vmax;left:-20%;top:-20%;animation:smokeRise 3.2s ease-out forwards;}
+.smoke-overlay.active .p2{width:80vmax;height:80vmax;left:50%;top:-15%;animation:smokeRise 3.2s .1s ease-out forwards;}
+.smoke-overlay.active .p3{width:82vmax;height:82vmax;left:-15%;top:50%;animation:smokeRise 3.2s .2s ease-out forwards;}
+.smoke-overlay.active .p4{width:85vmax;height:85vmax;left:45%;top:45%;animation:smokeRise 3.2s .3s ease-out forwards;}
+.smoke-overlay.active .p5{width:70vmax;height:70vmax;left:15%;top:15%;animation:smokeRise 3.2s .15s ease-out forwards;}
+.smoke-overlay.active .p6{width:70vmax;height:70vmax;left:70%;top:60%;animation:smokeRise 3.2s .25s ease-out forwards;}
 @keyframes smokeRise{
   0%{opacity:0;transform:scale(.5) translateY(25px);}
-  20%{opacity:.9;}
-  100%{opacity:0;transform:scale(1.4) translateY(-40px);}
+  20%{opacity:1;}
+  100%{opacity:0;transform:scale(1.55) translateY(-40px);}
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -665,6 +667,8 @@ footer span{color:var(--acc);}
   <div class="smoke-puff p2"></div>
   <div class="smoke-puff p3"></div>
   <div class="smoke-puff p4"></div>
+  <div class="smoke-puff p5"></div>
+  <div class="smoke-puff p6"></div>
 </div>
 
 <!-- HERO -->
