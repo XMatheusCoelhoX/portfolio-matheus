@@ -6,13 +6,13 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#080808">
 <title>Matheus Raimundo Coelho</title>
-<meta name="description" content="Portfólio profissional de Matheus Raimundo Coelho — Coordenador de TI e analista de segurança da informação (Red Team / Pentest).">
+<meta name="description" content="Portfólio profissional de Matheus Raimundo Coelho, Coordenador de TI e analista de segurança da informação (Red Team / Pentest).">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Matheus Raimundo Coelho — Cybersecurity & Red Team">
+<meta property="og:title" content="Matheus Raimundo Coelho: Cybersecurity & Red Team">
 <meta property="og:description" content="Coordenador de TI e analista de segurança da informação, atuando entre defesa (SIEM, hardening, LGPD) e ofensiva (pentest, red team, Active Directory).">
 <meta property="og:url" content="https://xmatheuscoelhox.github.io/portfolio-matheus/">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Matheus Raimundo Coelho — Cybersecurity & Red Team">
+<meta name="twitter:title" content="Matheus Raimundo Coelho: Cybersecurity & Red Team">
 <meta name="twitter:description" content="Coordenador de TI e analista de segurança da informação, atuando entre defesa e ofensiva em cibersegurança.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -48,7 +48,7 @@ body{
   z-index:0;pointer-events:none;opacity:.16;
 }
 
-/* CURSOR — AWP scope crosshair */
+/* CURSOR - AWP scope crosshair */
 .crosshair{
   width:44px;height:44px;position:fixed;top:0;left:0;
   pointer-events:none;z-index:9999;
@@ -76,13 +76,9 @@ body{
 @media(min-width:1400px){
   .rt-panel{width:320px;}
 }
-.rt-panel.rt-blue{border-color:rgba(63,169,255,.3);box-shadow:0 10px 40px rgba(0,0,0,.5),0 0 22px rgba(63,169,255,.08);}
-.bt-dot{background:#3fa9ff;box-shadow:0 0 6px #3fa9ff;}
 .bt-badge{color:#3fa9ff;border-color:rgba(63,169,255,.4);}
 .bt-badge.warn{color:#ffd23f;border-color:rgba(255,210,63,.4);}
 .bt-badge.crit{color:#ff4747;border-color:rgba(255,71,71,.45);}
-.rt-panel.rt-blue .rt-head{background:linear-gradient(90deg,rgba(63,169,255,.08),transparent 60%);border-bottom-color:rgba(63,169,255,.18);}
-.rt-panel.rt-blue .rt-log::-webkit-scrollbar-thumb{background:rgba(63,169,255,.25);}
 .rt-head{
   display:flex;align-items:center;justify-content:space-between;
   padding:.6rem .85rem;border-bottom:1px solid rgba(57,255,20,.2);
@@ -90,7 +86,8 @@ body{
   cursor:default;
 }
 .rt-head-l{display:flex;align-items:center;gap:.55rem;}
-.rt-dot{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 6px var(--acc);animation:blink 1.8s infinite;}
+.rt-dot{width:7px;height:7px;border-radius:50%;background:#ff4747;box-shadow:0 0 6px #ff4747;animation:blink 1.8s infinite;}
+.bt-dot{background:#3fa9ff;box-shadow:0 0 6px #3fa9ff;}
 .rt-title{font-size:.68rem;color:var(--gray);letter-spacing:.03em;}
 .rt-head-r{display:flex;align-items:center;gap:.5rem;}
 .rt-badge{
@@ -263,7 +260,7 @@ nav{
 /* hero bottom bar */
 .hero-bar{
   position:relative;z-index:2;margin-top:2.5rem;
-  display:flex;gap:3rem;align-items:center;
+  display:flex;gap:3rem;align-items:center;justify-content:center;
   border-top:1px solid var(--line);padding-top:1.5rem;
   animation:fadeUp .6s .4s ease both;
 }
@@ -543,12 +540,12 @@ footer span{color:var(--acc);}
         <div class="rt-head" id="rt-head">
           <div class="rt-head-l">
             <span class="rt-dot"></span>
-            <span class="rt-title">redteam@insane</span>
+            <span class="rt-title">redteam@tr</span>
           </div>
           <div class="rt-head-r">
             <span class="rt-badge" id="rt-badge">AGUARDANDO</span>
             <button class="rt-btn" id="rt-restart" title="Reiniciar simulação" type="button">↻</button>
-            <button class="rt-btn" id="rt-min" title="Minimizar" type="button">—</button>
+            <button class="rt-btn" id="rt-min" title="Minimizar" type="button">−</button>
           </div>
         </div>
         <div class="rt-body" id="rt-body">
@@ -565,11 +562,11 @@ footer span{color:var(--acc);}
         <div class="rt-head">
           <div class="rt-head-l">
             <span class="rt-dot bt-dot"></span>
-            <span class="rt-title">blueteam@soc</span>
+            <span class="rt-title">blueteam@ct</span>
           </div>
           <div class="rt-head-r">
             <span class="rt-badge bt-badge" id="bt-badge">STANDBY</span>
-            <button class="rt-btn" id="bt-min" title="Minimizar" type="button">—</button>
+            <button class="rt-btn" id="bt-min" title="Minimizar" type="button">−</button>
           </div>
         </div>
         <div class="rt-body" id="bt-body">
@@ -582,7 +579,7 @@ footer span{color:var(--acc);}
       </div>
     </div>
 
-    <div class="hero-sub">Cybersecurity · Red Team · Coordenação de TI · Paraíba do Sul — RJ</div>
+    <div class="hero-sub">Cybersecurity · Red Team · Coordenação de TI · Paraíba do Sul, RJ</div>
     <p class="hero-desc">
       Coordenador de TI e analista de segurança da informação, com atuação entre defesa (SIEM, hardening, firewalls, LGPD) e ofensiva (pentest, red team, Active Directory). Construo e automatizo ferramentas próprias de auditoria e ataque controlado.
     </p>
@@ -610,15 +607,15 @@ footer span{color:var(--acc);}
     <div class="sobre-text">
       <p>Sou <b>Matheus Raimundo Coelho</b>, de Paraíba do Sul, Rio de Janeiro. Atuo como <b>Coordenador de TI</b> na Prefeitura Municipal de Paraíba do Sul, liderando segurança da informação, infraestrutura de rede e projetos de automação com IA.</p>
       <p>Minha trajetória começou como analista de segurança da informação, passando por operação de SOC, gestão de vulnerabilidades e testes de intrusão. Hoje combino essa base ofensiva com responsabilidades defensivas: SIEM, hardening, firewalls (MikroTik/pfSense/Proxmox) e conformidade com a LGPD.</p>
-      <p>Em paralelo, atuo como <b>analista de segurança / pentester</b> em projetos externos, desenvolvendo scripts e ferramentas próprias para automação de auditorias, red team e bug bounty — publicadas em código aberto no meu GitHub.</p>
+      <p>Em paralelo, atuo como <b>analista de segurança / pentester</b> em projetos externos, desenvolvendo scripts e ferramentas próprias para automação de auditorias, red team e bug bounty, publicadas em código aberto no meu GitHub.</p>
     </div>
     <div>
       <div class="attr-list">
         <div class="attr-row"><span class="attr-icon"></span>Paraíba do Sul, Rio de Janeiro</div>
-        <div class="attr-row"><span class="attr-icon"></span>Coordenador de TI — Prefeitura de Paraíba do Sul</div>
+        <div class="attr-row"><span class="attr-icon"></span>Coordenador de TI, Prefeitura de Paraíba do Sul</div>
         <div class="attr-row"><span class="attr-icon"></span>Red Team Operator · Pentester · Bug Hunter</div>
-        <div class="attr-row"><span class="attr-icon"></span>CST em Segurança da Informação — Estácio</div>
-        <div class="attr-row"><span class="attr-icon"></span>Novo Pentest Profissional — Desec Security</div>
+        <div class="attr-row"><span class="attr-icon"></span>CST em Segurança da Informação, Estácio</div>
+        <div class="attr-row"><span class="attr-icon"></span>Novo Pentest Profissional, Desec Security</div>
         <a href="https://tryhackme.com/p/nvkps" target="_blank" class="attr-row" style="text-decoration:none;"><span class="attr-icon"></span>TryHackMe: nvkps →</a>
       </div>
     </div>
@@ -633,7 +630,7 @@ footer span{color:var(--acc);}
 
     <div class="xp-card card-hover">
       <div>
-        <div class="xp-period">AGO 2026<br>— ATUAL</div>
+        <div class="xp-period">AGO 2026<br>→ ATUAL</div>
         <div class="xp-company">Prefeitura Municipal de<br>Paraíba do Sul · Integral</div>
       </div>
       <div>
@@ -658,7 +655,7 @@ footer span{color:var(--acc);}
 
     <div class="xp-card card-hover">
       <div>
-        <div class="xp-period">ABR 2026<br>— SET 2026</div>
+        <div class="xp-period">ABR 2026<br>→ SET 2026</div>
         <div class="xp-company">VexorCorp Security · 6m</div>
       </div>
       <div>
@@ -673,7 +670,7 @@ footer span{color:var(--acc);}
 
     <div class="xp-card card-hover">
       <div>
-        <div class="xp-period">DEZ 2025<br>— SET 2026</div>
+        <div class="xp-period">DEZ 2025<br>→ SET 2026</div>
         <div class="xp-company">Novark Security · 10m</div>
       </div>
       <div>
@@ -688,7 +685,7 @@ footer span{color:var(--acc);}
 
     <div class="xp-card card-hover">
       <div>
-        <div class="xp-period">NOV 2023<br>— DEZ 2024</div>
+        <div class="xp-period">NOV 2023<br>→ DEZ 2024</div>
         <div class="xp-company">Knight Security · 1a 2m</div>
       </div>
       <div>
@@ -835,26 +832,26 @@ footer span{color:var(--acc);}
   <div class="s-title">EDUCAÇÃO <span>ACADÊMICA</span></div>
   <div class="edu-grid">
     <div class="edu-card card-hover">
-      <div class="edu-badge">Concluído</div>
-      <div class="edu-curso">Curso Superior de Tecnologia (CST) — Segurança da Informação</div>
+      <div class="edu-badge">Em andamento</div>
+      <div class="edu-curso">Curso Superior de Tecnologia (CST) em Segurança da Informação</div>
       <div class="edu-inst">Estácio</div>
-      <div class="edu-per">Jan 2025 — Jun 2027</div>
+      <div class="edu-per">Jan 2025 → Jun 2027</div>
     </div>
     <div class="edu-card card-hover">
       <div class="edu-badge">Concluído</div>
       <div class="edu-curso">Novo Pentest Profissional</div>
       <div class="edu-inst">Desec Security</div>
-      <div class="edu-per">Dez 2024 — Dez 2025</div>
+      <div class="edu-per">Dez 2024 → Dez 2025</div>
     </div>
     <div class="edu-card card-hover">
       <div class="edu-badge">Em andamento</div>
-      <div class="edu-curso">DCPT — Desec Certified Professional Tester</div>
+      <div class="edu-curso">DCPT: Desec Certified Professional Tester</div>
       <div class="edu-inst">Desec Security</div>
       <div class="edu-per">Em andamento</div>
     </div>
     <div class="edu-card card-hover">
       <div class="edu-badge">Em andamento</div>
-      <div class="edu-curso">CRTA — Certified Red Team Analyst</div>
+      <div class="edu-curso">CRTA: Certified Red Team Analyst</div>
       <div class="edu-inst">CyberWarFare Labs</div>
       <div class="edu-per">Em andamento</div>
     </div>
@@ -922,7 +919,7 @@ footer span{color:var(--acc);}
       </div>
       <div>
         <div class="xp-role">INSANE<br><span style="font-size:.55em;color:var(--dim);letter-spacing:.1em;">EXTERMINATUS · SCANNER</span></div>
-        <div class="xp-desc">Plataforma própria de scanning ofensivo multi-domínio (web/API, cloud, SaaS/identidade, LLM e Active Directory), com 134 módulos de teste catalogados em 8 categorias. Engine de execução orientado a WebSocket com triagem automática de achados por confiança e priorização por CVSS/EPSS, validação out-of-band, e geração automática de playbooks de exploração passo a passo. Também integra um CRM de bug bounty: earnings tracking, pipeline de reports, sincronização de programas e board de vagas. Auditada tecnicamente por terceiros — uso restrito e não publicado por conter módulos ofensivos sensíveis.</div>
+        <div class="xp-desc">Plataforma própria de scanning ofensivo multi-domínio (web/API, cloud, SaaS/identidade, LLM e Active Directory), com 134 módulos de teste catalogados em 8 categorias. Engine de execução orientado a WebSocket com triagem automática de achados por confiança e priorização por CVSS/EPSS, validação out-of-band, e geração automática de playbooks de exploração passo a passo. Também integra um CRM de bug bounty: earnings tracking, pipeline de reports, sincronização de programas e board de vagas. Auditada tecnicamente por terceiros; uso restrito e não publicado por conter módulos ofensivos sensíveis.</div>
         <div class="xp-tags">
           <span class="xtag">134 Módulos</span><span class="xtag">WebSocket Real-time</span>
           <span class="xtag">Active Directory</span><span class="xtag">Bug Bounty</span>
@@ -1027,7 +1024,7 @@ footer span{color:var(--acc);}
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 <span>Matheus Raimundo Coelho</span> — Todos os direitos reservados</p>
+  <p>© 2026 <span>Matheus Raimundo Coelho</span> · Todos os direitos reservados</p>
   <p>Paraíba do Sul <span>·</span> Rio de Janeiro <span>·</span> Brasil</p>
 </footer>
 
@@ -1036,7 +1033,7 @@ footer span{color:var(--acc);}
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
-// MATRIX RAIN — interactive digital-rain background
+// MATRIX RAIN - interactive digital-rain background
 (function(){
   const canvas = document.getElementById('matrix-bg');
   const ctx = canvas.getContext('2d');
@@ -1087,7 +1084,7 @@ gsap.registerPlugin(ScrollTrigger);
   }
 })();
 
-// cursor — AWP scope crosshair
+// cursor - AWP scope crosshair
 const crosshair=document.getElementById('crosshair');
 document.addEventListener('mousemove',e=>{
   crosshair.style.left=e.clientX+'px';
@@ -1098,7 +1095,7 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
   el.addEventListener('mouseleave',()=>{crosshair.classList.remove('locked');});
 });
 
-// HERO NAME — exact-fit sizing to match hero-tag/container width (measured, not guessed)
+// HERO NAME - exact-fit sizing to match hero-tag/container width (measured, not guessed)
 (function(){
   const nameEl = document.querySelector('.hero-name');
   const tagEl = document.querySelector('.hero-tag');
@@ -1122,7 +1119,7 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
   }
 })();
 
-// RED TEAM / BLUE TEAM LIVE PANELS — simulated recon-to-domain-admin op with SOC detection (illustrative only, no real target)
+// RED TEAM / BLUE TEAM LIVE PANELS - simulated recon-to-domain-admin op with SOC detection (illustrative only, no real target)
 (function(){
   const panelsWrap = document.getElementById('rt-panels');
   const panel = document.getElementById('rt-panel');
@@ -1171,7 +1168,7 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
     { t:'muted',                       d:320,  m:'████████████████████░░░░  82%' },
     { t:'info',                        d:280,  m:'[*] Uploading payload via /upload.php' },
     { t:'ok',                          d:300,  m:'[+] Payload executed on target' },
-    { t:'crit', badge:'SHELL OBTIDA',  d:460,  m:'[+] Reverse shell received — port 4444' },
+    { t:'crit', badge:'SHELL OBTIDA',  d:460,  m:'[+] Reverse shell received, port 4444' },
     { t:'info',                        d:220,  m:'meterpreter > getuid' },
     { t:'ok',                          d:260,  m:'[+] Server username: svc_web@DC01' },
     { t:'info', badge:'ESCALANDO',     d:340,  m:'$ Invoke-Kerberoast -OutputFormat hashcat' },
@@ -1179,8 +1176,8 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
     { t:'ok',                          d:320,  m:'[+] Cracked: svc_backup:********' },
     { t:'info',                        d:260,  m:'[*] svc_backup has DCSync rights' },
     { t:'info',                        d:220,  m:'mimikatz # lsadump::dcsync /user:Administrator' },
-    { t:'win',  badge:'DOMAIN ADMIN',  d:600,  m:'[+] DOMAIN ADMIN ACHIEVED — CORP\\\\Administrator' },
-    { t:'win',                         d:0,    m:'[+] Session: ACTIVE — Access: FULL' },
+    { t:'win',  badge:'DOMAIN ADMIN',  d:600,  m:'[+] DOMAIN ADMIN ACHIEVED: CORP\\\\Administrator' },
+    { t:'win',                         d:0,    m:'[+] Session: ACTIVE | Access: FULL' },
   ];
 
   let timer = null;
@@ -1225,15 +1222,15 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
     timer = setTimeout(() => runStep(i + 1), delay);
   }
 
-  // BLUE TEAM — SOC detection log, reacts to the red-team timeline above
+  // BLUE TEAM - SOC detection log, reacts to the red-team timeline above
   const BLUE_SCRIPT = [
     { at:1600, t:'det',  badge:'MONITORANDO', m:'[Wazuh] New asset discovered on VLAN10 (10.10.14.22)' },
     { at:2900, t:'warn', badge:'ALERTA',       m:'[Suricata] Directory brute-force pattern detected' },
     { at:3900, t:'warn',                       m:'[EDR] Suspicious file upload flagged (upload.php)' },
-    { at:4850, t:'crit', badge:'INCIDENTE',    m:'[EDR] Reverse shell behavior detected — PID 4821' },
+    { at:4850, t:'crit', badge:'INCIDENTE',    m:'[EDR] Reverse shell behavior detected, PID 4821' },
     { at:5700, t:'warn',                       m:'[SIEM] Abnormal TGS request spike (Kerberoasting)' },
-    { at:7300, t:'crit', badge:'CRÍTICO',      m:'[SOC] DCSync activity detected — Incident #4471 opened' },
-    { at:7700, t:'win',                        m:'[IR] Escalated to on-call — CORP\\\\Administrator compromised' },
+    { at:7300, t:'crit', badge:'CRÍTICO',      m:'[SOC] DCSync activity detected: Incident #4471 opened' },
+    { at:7700, t:'win',                        m:'[IR] Escalated to on-call: CORP\\\\Administrator compromised' },
   ];
   let btTimers = [];
 
