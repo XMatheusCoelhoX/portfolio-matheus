@@ -42,6 +42,12 @@ body{
   body{background:#090909 !important;color:#f2f2f2 !important;}
 }
 
+/* MATRIX RAIN BACKGROUND */
+#matrix-bg{
+  position:fixed;inset:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;opacity:.16;
+}
+
 /* CURSOR — AWP scope crosshair */
 .crosshair{
   width:44px;height:44px;position:fixed;top:0;left:0;
@@ -405,6 +411,8 @@ footer span{color:var(--acc);}
 </style>
 </head>
 <body>
+
+<canvas id="matrix-bg"></canvas>
 
 <div class="crosshair" id="crosshair">
   <div class="ch-circle"></div>
@@ -881,6 +889,57 @@ footer span{color:var(--acc);}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 gsap.registerPlugin(ScrollTrigger);
+
+// MATRIX RAIN — interactive digital-rain background
+(function(){
+  const canvas = document.getElementById('matrix-bg');
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const chars = 'アイウエオカキクケコサシスセソ0123456789ABCDEF#$%&*+-<>/\\';
+  const fontSize = 15;
+  let cols, drops, mouseX = -1000, mouseY = -1000;
+
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    cols = Math.floor(canvas.width / fontSize);
+    drops = Array.from({length: cols}, () => Math.random() * -canvas.height / fontSize);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+  function draw(){
+    ctx.fillStyle = 'rgba(9,9,9,0.08)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = fontSize + 'px monospace';
+
+    for(let i = 0; i < cols; i++){
+      const x = i * fontSize;
+      const y = drops[i] * fontSize;
+      const char = chars[Math.floor(Math.random() * chars.length)];
+
+      const dist = Math.hypot(x - mouseX, y - mouseY);
+      const near = dist < 140;
+      ctx.fillStyle = near ? '#e8ffe0' : '#39ff14';
+      ctx.shadowColor = near ? '#ffffff' : '#39ff14';
+      ctx.shadowBlur = near ? 12 : 4;
+      ctx.fillText(char, x, y);
+      ctx.shadowBlur = 0;
+
+      if(y > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i] += near ? 1.6 : 1;
+    }
+  }
+
+  if(!reduceMotion){
+    setInterval(draw, 45);
+  } else {
+    ctx.fillStyle = '#090909';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+})();
 
 // cursor — AWP scope crosshair
 const crosshair=document.getElementById('crosshair');
