@@ -110,11 +110,11 @@ body{
 
 /* RED TEAM LIVE PANEL */
 .rt-panel{
-  position:fixed;right:1.25rem;bottom:1.25rem;z-index:70;
-  width:380px;max-width:calc(100vw - 2rem);
-  background:rgba(9,10,9,.92);backdrop-filter:blur(10px);
+  align-self:flex-end;margin:1.6rem 0 2.2rem;z-index:3;
+  width:380px;max-width:min(90vw,380px);
+  background:rgba(9,10,9,.88);backdrop-filter:blur(10px);
   border:1px solid rgba(57,255,20,.28);border-radius:6px;
-  box-shadow:0 10px 40px rgba(0,0,0,.55),0 0 22px rgba(57,255,20,.08);
+  box-shadow:0 10px 40px rgba(0,0,0,.5),0 0 22px rgba(57,255,20,.08);
   font-family:'JetBrains Mono',monospace;
   overflow:hidden;
 }
@@ -148,6 +148,15 @@ body{
   height:260px;overflow-y:auto;padding:.75rem .9rem;
   font-size:.66rem;line-height:1.65;
 }
+.rt-start-wrap{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;text-align:center;padding:1rem;}
+.rt-start-btn{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:500;letter-spacing:.08em;
+  color:#04140a;background:var(--acc);border:none;border-radius:3px;
+  padding:.7rem 1.6rem;cursor:pointer;transition:all .2s;
+  box-shadow:0 0 0 rgba(57,255,20,0);
+}
+.rt-start-btn:hover{background:var(--acc2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(57,255,20,.3);}
+.rt-start-hint{font-size:.6rem;color:var(--dim);letter-spacing:.03em;max-width:220px;}
 .rt-log::-webkit-scrollbar{width:5px;}
 .rt-log::-webkit-scrollbar-thumb{background:rgba(57,255,20,.25);border-radius:3px;}
 .rt-line{white-space:pre-wrap;word-break:break-word;opacity:0;transform:translateY(4px);animation:rtIn .25s ease forwards;}
@@ -162,7 +171,7 @@ body{
 @keyframes rtIn{to{opacity:1;transform:translateY(0);}}
 
 @media(max-width:640px){
-  .rt-panel{left:.75rem;right:.75rem;bottom:.75rem;width:auto;}
+  .rt-panel{align-self:stretch;width:auto;max-width:none;}
 }
 @media (prefers-reduced-motion: reduce){
   .rt-line{animation:none;opacity:1;transform:none;}
@@ -540,23 +549,6 @@ footer span{color:var(--acc);}
   <div class="ch-dot"></div>
 </div>
 
-<div class="rt-panel" id="rt-panel">
-  <div class="rt-head" id="rt-head">
-    <div class="rt-head-l">
-      <span class="rt-dot"></span>
-      <span class="rt-title">redteam@insane</span>
-    </div>
-    <div class="rt-head-r">
-      <span class="rt-badge" id="rt-badge">INICIANDO</span>
-      <button class="rt-btn" id="rt-restart" title="Reiniciar simulação" type="button">↻</button>
-      <button class="rt-btn" id="rt-min" title="Minimizar" type="button">—</button>
-    </div>
-  </div>
-  <div class="rt-body" id="rt-body">
-    <div class="rt-log" id="rt-log"></div>
-  </div>
-</div>
-
 <!-- NAV -->
 <nav>
   <div class="nav-logo">MRC</div>
@@ -586,6 +578,29 @@ footer span{color:var(--acc);}
     <div class="hero-name">
       MATHEUS <span class="acc">RAIMUNDO</span> <span class="gray">COELHO</span>
     </div>
+
+    <div class="rt-panel" id="rt-panel">
+      <div class="rt-head" id="rt-head">
+        <div class="rt-head-l">
+          <span class="rt-dot"></span>
+          <span class="rt-title">redteam@insane</span>
+        </div>
+        <div class="rt-head-r">
+          <span class="rt-badge" id="rt-badge">AGUARDANDO</span>
+          <button class="rt-btn" id="rt-restart" title="Reiniciar simulação" type="button">↻</button>
+          <button class="rt-btn" id="rt-min" title="Minimizar" type="button">—</button>
+        </div>
+      </div>
+      <div class="rt-body" id="rt-body">
+        <div class="rt-log" id="rt-log">
+          <div class="rt-start-wrap">
+            <button class="rt-start-btn" id="rt-start-btn" type="button">▶ START SCAN</button>
+            <div class="rt-start-hint">Simular operação de Red Team em tempo real</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="hero-sub">Cybersecurity · Red Team · Coordenação de TI · Paraíba do Sul — RJ</div>
     <p class="hero-desc">
       Coordenador de TI e analista de segurança da informação, com atuação entre defesa (SIEM, hardening, firewalls, LGPD) e ofensiva (pentest, red team, Active Directory). Construo e automatizo ferramentas próprias de auditoria e ataque controlado.
@@ -1110,10 +1125,25 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
   if(!hero || !target || !hud) return;
   let score = 0;
 
+  function overlaps(vx, vy, w, h, rect){
+    return vx < rect.right && vx + w > rect.left && vy < rect.bottom && vy + h > rect.top;
+  }
   function randomPos(){
     const rect = hero.getBoundingClientRect();
-    const x = rect.width * (0.6 + Math.random() * 0.3);
-    const y = rect.height * (0.14 + Math.random() * 0.5);
+    const rtPanel = document.getElementById('rt-panel');
+    const nameEl = document.querySelector('.hero-name');
+    const panelRect = rtPanel ? rtPanel.getBoundingClientRect() : null;
+    const nameRect = nameEl ? nameEl.getBoundingClientRect() : null;
+    let x, y, tries = 0;
+    do {
+      x = rect.width * (0.55 + Math.random() * 0.4);
+      y = rect.height * (0.03 + Math.random() * 0.62);
+      tries++;
+    } while(
+      tries < 20 &&
+      ((panelRect && overlaps(rect.left + x, rect.top + y, 64, 64, panelRect)) ||
+       (nameRect && overlaps(rect.left + x, rect.top + y, 64, 64, nameRect)))
+    );
     target.style.left = x + 'px';
     target.style.top = y + 'px';
   }
@@ -1253,7 +1283,13 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
   minBtn.addEventListener('click', () => panel.classList.toggle('minimized'));
   restartBtn.addEventListener('click', start);
 
-  start();
+  const startBtn = document.getElementById('rt-start-btn');
+  if(startBtn){
+    startBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      start();
+    });
+  }
 })();
 
 // HERO
