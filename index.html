@@ -239,18 +239,67 @@ nav{
 }
 
 .explosion-overlay{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;}
-.explosion-flash{position:absolute;inset:0;background:radial-gradient(circle,#fff 0%,#ffb347 22%,rgba(255,120,30,.4) 45%,transparent 72%);opacity:0;}
-.explosion-overlay.active .explosion-flash{animation:explFlash 3.2s ease-out forwards;}
-@keyframes explFlash{0%{opacity:0;}8%{opacity:1;}100%{opacity:0;}}
+.explosion-flash{position:absolute;inset:0;background:radial-gradient(circle,#fff 0%,#ffe9c2 12%,#ffb347 24%,rgba(255,120,30,.5) 42%,transparent 68%);opacity:0;}
+.explosion-overlay.active .explosion-flash{animation:explFlash 1s cubic-bezier(.1,.8,.2,1) forwards;}
+@keyframes explFlash{0%{opacity:0;}6%{opacity:1;}45%{opacity:.3;}100%{opacity:0;}}
+
+.explosion-fire{
+  position:absolute;inset:0;
+  background:radial-gradient(circle,rgba(255,235,180,.95) 0%,rgba(255,140,40,.8) 16%,rgba(210,60,10,.5) 32%,rgba(120,20,5,.25) 50%,transparent 66%);
+  opacity:0;mix-blend-mode:screen;
+}
+.explosion-overlay.active .explosion-fire{animation:explFire 1.6s ease-out .05s forwards;}
+@keyframes explFire{
+  0%{opacity:0;transform:scale(.25);}
+  12%{opacity:1;transform:scale(1);}
+  45%{opacity:.65;transform:scale(1.15);}
+  100%{opacity:0;transform:scale(1.5);}
+}
+
 .explosion-ring{
   position:absolute;top:50%;left:50%;width:10px;height:10px;
-  border:5px solid rgba(255,170,60,.85);border-radius:50%;
+  border:6px solid rgba(255,190,80,.9);border-radius:50%;
   transform:translate(-50%,-50%);opacity:0;
+  box-shadow:0 0 30px rgba(255,140,40,.5);
 }
-.explosion-overlay.active .explosion-ring{animation:explRing 3.2s cubic-bezier(.15,.7,.3,1) forwards;}
+.explosion-overlay.active .explosion-ring{animation:explRing 1.3s cubic-bezier(.1,.75,.25,1) forwards;}
 @keyframes explRing{
-  0%{width:10px;height:10px;opacity:1;border-width:8px;}
-  100%{width:220vmax;height:220vmax;opacity:0;border-width:1px;}
+  0%{width:10px;height:10px;opacity:1;border-width:10px;}
+  100%{width:200vmax;height:200vmax;opacity:0;border-width:1px;}
+}
+.explosion-ring.r2{border-color:rgba(255,90,20,.65);box-shadow:0 0 20px rgba(255,90,20,.4);}
+.explosion-overlay.active .explosion-ring.r2{animation:explRing2 1.7s .15s cubic-bezier(.1,.75,.25,1) forwards;}
+@keyframes explRing2{
+  0%{width:10px;height:10px;opacity:.9;border-width:7px;}
+  100%{width:170vmax;height:170vmax;opacity:0;border-width:1px;}
+}
+
+.explosion-smoke{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle,rgba(45,38,32,.9) 0%,rgba(30,25,20,.55) 50%,transparent 76%);
+  filter:blur(22px);opacity:0;
+}
+.explosion-overlay.active .s1{width:42vmax;height:42vmax;left:29%;top:32%;animation:explSmokeUp 2.8s .35s ease-out forwards;}
+.explosion-overlay.active .s2{width:38vmax;height:38vmax;left:54%;top:38%;animation:explSmokeUp 2.8s .5s ease-out forwards;}
+.explosion-overlay.active .s3{width:40vmax;height:40vmax;left:40%;top:28%;animation:explSmokeUp 2.8s .65s ease-out forwards;}
+@keyframes explSmokeUp{
+  0%{opacity:0;transform:scale(.4) translateY(15px);}
+  25%{opacity:.6;}
+  100%{opacity:0;transform:scale(1.35) translateY(-70px);}
+}
+
+body.shake-active{animation:screenShake .55s cubic-bezier(.36,.07,.19,.97);}
+@keyframes screenShake{
+  0%{transform:translate(0,0) scale(1);}
+  8%{transform:translate(-10px,5px) scale(1.015);}
+  18%{transform:translate(9px,-7px) scale(1.01);}
+  28%{transform:translate(-8px,7px) scale(1.008);}
+  38%{transform:translate(9px,-4px) scale(1.005);}
+  50%{transform:translate(-6px,4px) scale(1.003);}
+  62%{transform:translate(5px,-3px);}
+  74%{transform:translate(-3px,2px);}
+  86%{transform:translate(2px,-1px);}
+  100%{transform:translate(0,0) scale(1);}
 }
 
 .smoke-overlay{position:fixed;inset:0;pointer-events:none;z-index:9997;overflow:hidden;}
@@ -276,8 +325,100 @@ nav{
 
 @media (prefers-reduced-motion: reduce){
   .flash-overlay.active{animation:none;opacity:0;}
-  .explosion-overlay.active .explosion-flash,.explosion-overlay.active .explosion-ring{animation:none;opacity:0;}
+  .explosion-overlay.active .explosion-flash,.explosion-overlay.active .explosion-fire,.explosion-overlay.active .explosion-ring,.explosion-overlay.active .explosion-smoke{animation:none;opacity:0;}
+  body.shake-active{animation:none;}
   .smoke-overlay.active .smoke-puff,.smoke-overlay.active .smoke-wash{animation:none;opacity:0;}
+  .glitch-overlay.active *{animation:none;opacity:0;}
+  body.glitch-active{animation:none;filter:none;}
+}
+
+/* GLITCH SIGNAL — alien-interference effect on logo click */
+#nav-logo{cursor:pointer;}
+.glitch-overlay{position:fixed;inset:0;pointer-events:none;z-index:10001;overflow:hidden;opacity:0;}
+.glitch-overlay.active{opacity:1;animation:glitchToggle 1.8s steps(1) forwards;}
+@keyframes glitchToggle{0%{opacity:1;}96%{opacity:1;}100%{opacity:0;}}
+
+.glitch-noise{
+  position:absolute;inset:-4% ;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode:overlay;opacity:0;
+}
+.glitch-overlay.active .glitch-noise{animation:glitchNoise 1.8s steps(1) forwards;}
+@keyframes glitchNoise{
+  0%{opacity:.55;}10%{opacity:.15;}20%{opacity:.6;}30%{opacity:.2;}
+  40%{opacity:.65;}50%{opacity:.1;}60%{opacity:.5;}70%{opacity:.25;}
+  80%{opacity:.6;}90%{opacity:.15;}100%{opacity:0;}
+}
+
+.glitch-scan{
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0px,rgba(0,0,0,.3) 1px,transparent 2px,transparent 4px);
+  mix-blend-mode:multiply;opacity:0;
+}
+.glitch-overlay.active .glitch-scan{animation:glitchScan 1.8s steps(1) forwards;}
+@keyframes glitchScan{0%{opacity:.5;}50%{opacity:.35;}90%{opacity:.5;}100%{opacity:0;}}
+
+.glitch-rgb{position:absolute;inset:0;opacity:0;mix-blend-mode:screen;}
+.glitch-rgb.gr{background:rgba(255,20,60,.14);}
+.glitch-rgb.gc{background:rgba(20,220,255,.14);}
+.glitch-overlay.active .gr{animation:glitchRgbR 1.8s steps(1) forwards;}
+.glitch-overlay.active .gc{animation:glitchRgbC 1.8s steps(1) forwards;}
+@keyframes glitchRgbR{
+  0%{opacity:.5;transform:translateX(-6px);}12%{opacity:0;transform:translateX(0);}
+  30%{opacity:.6;transform:translateX(8px);}45%{opacity:0;}
+  62%{opacity:.5;transform:translateX(-5px);}78%{opacity:0;}
+  92%{opacity:.4;transform:translateX(4px);}100%{opacity:0;transform:translateX(0);}
+}
+@keyframes glitchRgbC{
+  0%{opacity:.5;transform:translateX(6px);}12%{opacity:0;transform:translateX(0);}
+  30%{opacity:.6;transform:translateX(-8px);}45%{opacity:0;}
+  62%{opacity:.5;transform:translateX(5px);}78%{opacity:0;}
+  92%{opacity:.4;transform:translateX(-4px);}100%{opacity:0;transform:translateX(0);}
+}
+
+.glitch-slice{
+  position:absolute;left:0;width:100%;
+  background:rgba(57,255,20,.1);mix-blend-mode:overlay;opacity:0;
+}
+.glitch-slice.s1{top:18%;height:6%;}
+.glitch-slice.s2{top:48%;height:9%;}
+.glitch-slice.s3{top:74%;height:5%;}
+.glitch-overlay.active .s1{animation:glitchSlice1 1.8s steps(1) forwards;}
+.glitch-overlay.active .s2{animation:glitchSlice2 1.8s steps(1) forwards;}
+.glitch-overlay.active .s3{animation:glitchSlice3 1.8s steps(1) forwards;}
+@keyframes glitchSlice1{
+  0%{opacity:0;}8%{opacity:.7;transform:translateX(-6%);}16%{opacity:0;}
+  40%{opacity:.6;transform:translateX(4%);}48%{opacity:0;}
+  70%{opacity:.5;transform:translateX(-3%);}80%{opacity:0;transform:translateX(0);}
+}
+@keyframes glitchSlice2{
+  0%{opacity:0;}14%{opacity:.6;transform:translateX(5%);}22%{opacity:0;}
+  46%{opacity:.7;transform:translateX(-7%);}55%{opacity:0;}
+  76%{opacity:.5;transform:translateX(3%);}86%{opacity:0;transform:translateX(0);}
+}
+@keyframes glitchSlice3{
+  0%{opacity:0;}20%{opacity:.6;transform:translateX(-4%);}28%{opacity:0;}
+  52%{opacity:.6;transform:translateX(6%);}60%{opacity:0;}
+  82%{opacity:.5;transform:translateX(-3%);}92%{opacity:0;transform:translateX(0);}
+}
+
+.glitch-text{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'JetBrains Mono',monospace;font-size:clamp(1.2rem,4vw,2.4rem);
+  letter-spacing:.3em;color:var(--acc);text-shadow:0 0 14px rgba(57,255,20,.8),2px 0 #ff143c,-2px 0 #14dcff;
+  opacity:0;white-space:nowrap;
+}
+.glitch-overlay.active .glitch-text{animation:glitchTextShow 1.8s steps(1) forwards;}
+@keyframes glitchTextShow{
+  0%{opacity:0;}22%{opacity:0;}25%{opacity:1;}30%{opacity:0;}
+  55%{opacity:1;}60%{opacity:0;}62%{opacity:.8;}66%{opacity:0;}
+  100%{opacity:0;}
+}
+
+body.glitch-active{animation:glitchBodyFilter .09s steps(2) infinite;}
+@keyframes glitchBodyFilter{
+  0%{filter:none;}
+  50%{filter:contrast(1.35) saturate(1.6) hue-rotate(8deg);}
 }
 
 /* HERO */
@@ -606,7 +747,7 @@ footer span{color:var(--acc);}
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">
+  <div class="nav-logo" id="nav-logo" role="button" tabindex="0" title="???" aria-label="Sinal detectado">
     <span class="ls-ring"></span>
     <span class="ls-h"></span>
     <span class="ls-v"></span>
@@ -659,7 +800,12 @@ footer span{color:var(--acc);}
 <div class="flash-overlay" id="flash-overlay"></div>
 <div class="explosion-overlay" id="explosion-overlay">
   <div class="explosion-flash"></div>
+  <div class="explosion-fire"></div>
   <div class="explosion-ring"></div>
+  <div class="explosion-ring r2"></div>
+  <div class="explosion-smoke s1"></div>
+  <div class="explosion-smoke s2"></div>
+  <div class="explosion-smoke s3"></div>
 </div>
 <div class="smoke-overlay" id="smoke-overlay">
   <div class="smoke-wash"></div>
@@ -669,6 +815,16 @@ footer span{color:var(--acc);}
   <div class="smoke-puff p4"></div>
   <div class="smoke-puff p5"></div>
   <div class="smoke-puff p6"></div>
+</div>
+<div class="glitch-overlay" id="glitch-overlay">
+  <div class="glitch-noise"></div>
+  <div class="glitch-scan"></div>
+  <div class="glitch-rgb gr"></div>
+  <div class="glitch-rgb gc"></div>
+  <div class="glitch-slice s1"></div>
+  <div class="glitch-slice s2"></div>
+  <div class="glitch-slice s3"></div>
+  <div class="glitch-text">SIGNAL LOST</div>
 </div>
 
 <!-- HERO -->
@@ -1243,16 +1399,19 @@ gsap.registerPlugin(ScrollTrigger);
   overlay.addEventListener('animationend', () => overlay.classList.remove('active'));
 })();
 
-// HE GRENADE — explosion flash + shockwave ring
+// HE GRENADE — explosion flash + fireball + shockwave + smoke + screen shake
 (function(){
   const btn = document.getElementById('nav-he');
   const overlay = document.getElementById('explosion-overlay');
   if(!btn || !overlay) return;
   btn.addEventListener('click', () => {
     overlay.classList.remove('active');
+    document.body.classList.remove('shake-active');
     void overlay.offsetWidth;
     overlay.classList.add('active');
+    document.body.classList.add('shake-active');
     setTimeout(() => overlay.classList.remove('active'), 3200);
+    setTimeout(() => document.body.classList.remove('shake-active'), 600);
   });
 })();
 
@@ -1266,6 +1425,28 @@ gsap.registerPlugin(ScrollTrigger);
     void overlay.offsetWidth;
     overlay.classList.add('active');
     setTimeout(() => overlay.classList.remove('active'), 3200);
+  });
+})();
+
+// GLITCH SIGNAL — alien-interference effect on logo click
+(function(){
+  const logo = document.getElementById('nav-logo');
+  const overlay = document.getElementById('glitch-overlay');
+  if(!logo || !overlay) return;
+  function trigger(){
+    overlay.classList.remove('active');
+    document.body.classList.remove('glitch-active');
+    void overlay.offsetWidth;
+    overlay.classList.add('active');
+    document.body.classList.add('glitch-active');
+    setTimeout(() => {
+      overlay.classList.remove('active');
+      document.body.classList.remove('glitch-active');
+    }, 1800);
+  }
+  logo.addEventListener('click', trigger);
+  logo.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); trigger(); }
   });
 })();
 
