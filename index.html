@@ -248,7 +248,7 @@ nav{
   background:radial-gradient(circle,rgba(255,235,180,.95) 0%,rgba(255,140,40,.8) 16%,rgba(210,60,10,.5) 32%,rgba(120,20,5,.25) 50%,transparent 66%);
   opacity:0;mix-blend-mode:screen;
 }
-.explosion-overlay.active .explosion-fire{animation:explFire 1.6s ease-out .05s forwards;}
+.explosion-overlay.active .explosion-fire{animation:explFire 1.6s ease-out forwards;}
 @keyframes explFire{
   0%{opacity:0;transform:scale(.25);}
   12%{opacity:1;transform:scale(1);}
@@ -268,7 +268,7 @@ nav{
   100%{width:200vmax;height:200vmax;opacity:0;border-width:1px;}
 }
 .explosion-ring.r2{border-color:rgba(255,90,20,.65);box-shadow:0 0 20px rgba(255,90,20,.4);}
-.explosion-overlay.active .explosion-ring.r2{animation:explRing2 1.7s .15s cubic-bezier(.1,.75,.25,1) forwards;}
+.explosion-overlay.active .explosion-ring.r2{animation:explRing2 1.7s cubic-bezier(.1,.75,.25,1) forwards;}
 @keyframes explRing2{
   0%{width:10px;height:10px;opacity:.9;border-width:7px;}
   100%{width:170vmax;height:170vmax;opacity:0;border-width:1px;}
@@ -290,15 +290,14 @@ nav{
 
 body.shake-active{animation:screenShake .55s cubic-bezier(.36,.07,.19,.97);}
 @keyframes screenShake{
-  0%{transform:translate(0,0) scale(1);}
-  8%{transform:translate(-10px,5px) scale(1.015);}
-  18%{transform:translate(9px,-7px) scale(1.01);}
-  28%{transform:translate(-8px,7px) scale(1.008);}
-  38%{transform:translate(9px,-4px) scale(1.005);}
-  50%{transform:translate(-6px,4px) scale(1.003);}
-  62%{transform:translate(5px,-3px);}
-  74%{transform:translate(-3px,2px);}
-  86%{transform:translate(2px,-1px);}
+  0%{transform:translate(-10px,5px) scale(1.02);}
+  10%{transform:translate(9px,-7px) scale(1.012);}
+  20%{transform:translate(-8px,7px) scale(1.008);}
+  32%{transform:translate(9px,-4px) scale(1.005);}
+  45%{transform:translate(-6px,4px) scale(1.003);}
+  58%{transform:translate(5px,-3px);}
+  70%{transform:translate(-3px,2px);}
+  82%{transform:translate(2px,-1px);}
   100%{transform:translate(0,0) scale(1);}
 }
 
@@ -603,7 +602,7 @@ section:nth-child(odd){background:linear-gradient(180deg,transparent 0%,rgba(16,
   border-bottom:1px solid var(--line);
 }
 .arsenal-os-title.acc-linux{color:var(--acc);}
-.arsenal-os-title.acc-windows{color:#7fc4ff;}
+.arsenal-os-title.acc-windows{color:var(--gray);}
 .arsenal-title{
   font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.03em;
   color:var(--white);margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem;
@@ -923,7 +922,7 @@ footer span{color:var(--acc);}
         <div class="attr-row"><span class="attr-icon"></span>Paraíba do Sul, Rio de Janeiro</div>
         <div class="attr-row"><span class="attr-icon"></span>Coordenador de TI, Prefeitura de Paraíba do Sul</div>
         <div class="attr-row"><span class="attr-icon"></span>Red Team Operator · Pentester · Bug Hunter</div>
-        <div class="attr-row"><span class="attr-icon"></span>CST em Segurança da Informação, Estácio</div>
+        <div class="attr-row"><span class="attr-icon"></span>Defesa Cibernética, Estácio</div>
         <div class="attr-row"><span class="attr-icon"></span>Novo Pentest Profissional, Desec Security</div>
         <a href="https://tryhackme.com/p/nvkps" target="_blank" class="attr-row" style="text-decoration:none;"><span class="attr-icon"></span>TryHackMe: nvkps →</a>
       </div>
@@ -1158,6 +1157,9 @@ footer span{color:var(--acc);}
       <span class="stack-chip">NIST</span>
       <span class="stack-chip">ISO 27001</span>
       <span class="stack-chip">Atomic Red Team</span>
+      <span class="stack-chip">Cyber Kill Chain</span>
+      <span class="stack-chip">PTES</span>
+      <span class="stack-chip">OSSTMM</span>
     </div>
   </div>
 </section>
@@ -1169,9 +1171,21 @@ footer span{color:var(--acc);}
   <div class="edu-grid">
     <div class="edu-card card-hover">
       <div class="edu-badge">Em andamento</div>
-      <div class="edu-curso">Curso Superior de Tecnologia (CST) em Segurança da Informação</div>
+      <div class="edu-curso">Graduação em Defesa Cibernética</div>
       <div class="edu-inst">Estácio</div>
       <div class="edu-per">Jan 2025 → Jun 2027</div>
+    </div>
+    <div class="edu-card card-hover">
+      <div class="edu-badge">Concluído</div>
+      <div class="edu-curso">Graduação em Engenharia de Produção</div>
+      <div class="edu-inst">Universidade de Vassouras</div>
+      <div class="edu-per">Concluído</div>
+    </div>
+    <div class="edu-card card-hover">
+      <div class="edu-badge">Concluído</div>
+      <div class="edu-curso">MBA em Supply Chain Management</div>
+      <div class="edu-inst">UniCesumar</div>
+      <div class="edu-per">Concluído</div>
     </div>
     <div class="edu-card card-hover">
       <div class="edu-badge">Concluído</div>
@@ -1239,6 +1253,30 @@ footer span{color:var(--acc);}
       <div class="cert-sq"></div>
       <div><div class="cert-name">Wazuh SIEM na Prática: Detectando Ataques em Tempo Real</div><div class="cert-meta">CyberDimension · Jun 2026</div></div>
     </div>
+    <div class="cert-card card-hover">
+      <div class="cert-sq"></div>
+      <div><div class="cert-name">GHSOC — Certified SOC Analyst</div><div class="cert-meta">Hackers do Bem</div></div>
+    </div>
+    <div class="cert-card card-hover">
+      <div class="cert-sq"></div>
+      <div><div class="cert-name">GHFOR — Perícia Forense Digital</div><div class="cert-meta">Hackers do Bem</div></div>
+    </div>
+    <div class="cert-card card-hover">
+      <div class="cert-sq"></div>
+      <div><div class="cert-name">Auditoria Interna SGQ ISO 9001</div><div class="cert-meta">Voitto Treinamentos</div></div>
+    </div>
+    <div class="cert-card card-hover">
+      <div class="cert-sq"></div>
+      <div><div class="cert-name">Green Belt em Lean Six Sigma</div><div class="cert-meta">FM2S</div></div>
+    </div>
+    <div class="cert-card card-hover">
+      <div class="cert-sq"></div>
+      <div><div class="cert-name">SAP — Módulo PM</div><div class="cert-meta">EngTeles</div></div>
+    </div>
+    <div class="cert-card card-hover" style="border-color:rgba(255,210,63,.35);">
+      <div class="cert-sq" style="background:#ffd23f;"></div>
+      <div><div class="cert-name">Hall of Fame — Grafana</div><div class="cert-meta">Bug Bounty · Responsible Disclosure</div></div>
+    </div>
   </div>
 </section>
 
@@ -1261,6 +1299,23 @@ footer span{color:var(--acc);}
           <span class="xtag">Active Directory</span><span class="xtag">Bug Bounty</span>
           <span class="xtag">Cloud & SaaS</span><span class="xtag">LLM/IA</span>
         </div>
+      </div>
+    </div>
+
+    <div class="xp-card card-hover">
+      <div>
+        <div class="xp-period">CTI<br>PLATFORM</div>
+        <div class="xp-company">VexorCorp · v4.0<br>Uso Público e Gratuito</div>
+      </div>
+      <div>
+        <div class="xp-role">Plataforma CTI VexorCorp</div>
+        <div class="xp-desc">Participei ativamente da construção da nova versão (v4.0) da plataforma de Cyber Threat Intelligence da VexorCorp, centralizando inteligência de ameaças em tempo real. Módulos: Command Center, IOC Database e CVEs, Threat Actors e Ransomware Victims, Threat Hunting, Intelligence Graph e Global Attack Map, MITRE ATT&CK e Behavior Modeling, Sigma Rules, Threat News e Dark Web Markets, Attack Simulation, Attack Paths e Cyber Weather. Plataforma 100% gratuita para analistas de SOC, pentesters e estudantes.</div>
+        <div class="xp-tags">
+          <span class="xtag">Threat Intelligence</span><span class="xtag">MITRE ATT&CK</span>
+          <span class="xtag">Threat Hunting</span><span class="xtag">Sigma Rules</span>
+          <span class="xtag">Atomic Red Team</span>
+        </div>
+        <a href="https://www.vexorcorp.com.br/cti/" target="_blank" class="btn-o" style="display:inline-block;margin-top:1.2rem;">Ver Demonstração →</a>
       </div>
     </div>
 
