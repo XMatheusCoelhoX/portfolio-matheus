@@ -58,10 +58,15 @@ body{
 .crosshair.fire .ch-circle{box-shadow:0 0 22px 6px rgba(57,255,20,.55) inset;border-color:#fff;}
 .crosshair.fire .ch-line{background:#fff;box-shadow:0 0 14px #fff;}
 
-/* RED TEAM LIVE PANEL */
+/* RED TEAM / BLUE TEAM LIVE PANELS */
+.rt-panels{
+  display:flex;flex-direction:column;gap:1rem;margin:1.5rem 0 0;z-index:3;
+}
+@media(min-width:1400px){
+  .rt-panels{position:absolute;top:0;right:0;margin:0;flex-direction:row;}
+}
 .rt-panel{
-  position:static;margin:1.5rem 0 0;z-index:3;
-  width:100%;max-width:520px;
+  width:100%;
   background:rgba(9,10,9,.88);backdrop-filter:blur(10px);
   border:1px solid rgba(57,255,20,.28);border-radius:6px;
   box-shadow:0 10px 40px rgba(0,0,0,.5),0 0 22px rgba(57,255,20,.08);
@@ -69,8 +74,15 @@ body{
   overflow:hidden;
 }
 @media(min-width:1400px){
-  .rt-panel{position:absolute;top:0;right:0;margin:0;width:500px;max-width:500px;}
+  .rt-panel{width:320px;}
 }
+.rt-panel.rt-blue{border-color:rgba(63,169,255,.3);box-shadow:0 10px 40px rgba(0,0,0,.5),0 0 22px rgba(63,169,255,.08);}
+.bt-dot{background:#3fa9ff;box-shadow:0 0 6px #3fa9ff;}
+.bt-badge{color:#3fa9ff;border-color:rgba(63,169,255,.4);}
+.bt-badge.warn{color:#ffd23f;border-color:rgba(255,210,63,.4);}
+.bt-badge.crit{color:#ff4747;border-color:rgba(255,71,71,.45);}
+.rt-panel.rt-blue .rt-head{background:linear-gradient(90deg,rgba(63,169,255,.08),transparent 60%);border-bottom-color:rgba(63,169,255,.18);}
+.rt-panel.rt-blue .rt-log::-webkit-scrollbar-thumb{background:rgba(63,169,255,.25);}
 .rt-head{
   display:flex;align-items:center;justify-content:space-between;
   padding:.6rem .85rem;border-bottom:1px solid rgba(57,255,20,.2);
@@ -95,11 +107,11 @@ body{
   cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;
 }
 .rt-btn:hover{color:var(--acc);border-color:rgba(57,255,20,.4);}
-.rt-body{max-height:260px;transition:max-height .3s ease,opacity .3s ease;overflow:hidden;}
+.rt-body{max-height:200px;transition:max-height .3s ease,opacity .3s ease;overflow:hidden;}
 .rt-panel.minimized .rt-body{max-height:0;opacity:0;}
 .rt-log{
-  height:260px;overflow-y:auto;padding:.75rem .9rem;
-  font-size:.66rem;line-height:1.65;
+  height:200px;overflow-y:auto;padding:.7rem .8rem;
+  font-size:.62rem;line-height:1.6;
 }
 .rt-start-wrap{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;text-align:center;padding:1rem;}
 .rt-start-btn{
@@ -119,6 +131,7 @@ body{
 .rt-line.warn{color:#ffd23f;}
 .rt-line.crit{color:#ff5c5c;}
 .rt-line.muted{color:var(--dim);}
+.rt-line.det{color:#7fc4ff;}
 .rt-line.win{color:#fff;text-shadow:0 0 6px rgba(255,255,255,.5);font-weight:600;}
 .rt-cursor{display:inline-block;width:6px;height:11px;background:var(--acc);margin-left:2px;vertical-align:-1px;animation:blink 1s steps(1) infinite;}
 @keyframes rtIn{to{opacity:1;transform:translateY(0);}}
@@ -525,23 +538,45 @@ footer span{color:var(--acc);}
       MATHEUS <span class="acc">RAIMUNDO</span> <span class="gray">COELHO</span>
     </div>
 
-    <div class="rt-panel" id="rt-panel">
-      <div class="rt-head" id="rt-head">
-        <div class="rt-head-l">
-          <span class="rt-dot"></span>
-          <span class="rt-title">redteam@insane</span>
+    <div class="rt-panels" id="rt-panels">
+      <div class="rt-panel" id="rt-panel">
+        <div class="rt-head" id="rt-head">
+          <div class="rt-head-l">
+            <span class="rt-dot"></span>
+            <span class="rt-title">redteam@insane</span>
+          </div>
+          <div class="rt-head-r">
+            <span class="rt-badge" id="rt-badge">AGUARDANDO</span>
+            <button class="rt-btn" id="rt-restart" title="Reiniciar simulação" type="button">↻</button>
+            <button class="rt-btn" id="rt-min" title="Minimizar" type="button">—</button>
+          </div>
         </div>
-        <div class="rt-head-r">
-          <span class="rt-badge" id="rt-badge">AGUARDANDO</span>
-          <button class="rt-btn" id="rt-restart" title="Reiniciar simulação" type="button">↻</button>
-          <button class="rt-btn" id="rt-min" title="Minimizar" type="button">—</button>
+        <div class="rt-body" id="rt-body">
+          <div class="rt-log" id="rt-log">
+            <div class="rt-start-wrap">
+              <button class="rt-start-btn" id="rt-start-btn" type="button">▶ START SCAN</button>
+              <div class="rt-start-hint">Simular operação de Red Team em tempo real</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="rt-body" id="rt-body">
-        <div class="rt-log" id="rt-log">
-          <div class="rt-start-wrap">
-            <button class="rt-start-btn" id="rt-start-btn" type="button">▶ START SCAN</button>
-            <div class="rt-start-hint">Simular operação de Red Team em tempo real</div>
+
+      <div class="rt-panel rt-blue" id="bt-panel">
+        <div class="rt-head">
+          <div class="rt-head-l">
+            <span class="rt-dot bt-dot"></span>
+            <span class="rt-title">blueteam@soc</span>
+          </div>
+          <div class="rt-head-r">
+            <span class="rt-badge bt-badge" id="bt-badge">STANDBY</span>
+            <button class="rt-btn" id="bt-min" title="Minimizar" type="button">—</button>
+          </div>
+        </div>
+        <div class="rt-body" id="bt-body">
+          <div class="rt-log" id="bt-log">
+            <div class="rt-start-wrap">
+              <div class="rt-start-hint">Aguardando início da operação Red Team para iniciar o monitoramento (SOC)</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1063,39 +1098,57 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
   el.addEventListener('mouseleave',()=>{crosshair.classList.remove('locked');});
 });
 
-// RED TEAM LIVE PANEL — simulated recon-to-domain-admin op (illustrative only, no real target)
+// HERO NAME — exact-fit sizing to match hero-tag/container width (measured, not guessed)
 (function(){
+  const nameEl = document.querySelector('.hero-name');
+  const tagEl = document.querySelector('.hero-tag');
+  if(!nameEl || !tagEl) return;
+
+  function fitName(){
+    if(window.innerWidth < 640){ nameEl.style.fontSize = ''; return; }
+    const REF = 100;
+    nameEl.style.fontSize = REF + 'px';
+    const natural = nameEl.scrollWidth;
+    const target = tagEl.getBoundingClientRect().width;
+    if(!natural || !target) return;
+    let size = (target / natural) * REF;
+    size = Math.max(24, Math.min(160, size));
+    nameEl.style.fontSize = size + 'px';
+  }
+  fitName();
+  window.addEventListener('resize', fitName);
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(fitName);
+  }
+})();
+
+// RED TEAM / BLUE TEAM LIVE PANELS — simulated recon-to-domain-admin op with SOC detection (illustrative only, no real target)
+(function(){
+  const panelsWrap = document.getElementById('rt-panels');
   const panel = document.getElementById('rt-panel');
   const logEl = document.getElementById('rt-log');
   const badge = document.getElementById('rt-badge');
   const minBtn = document.getElementById('rt-min');
   const restartBtn = document.getElementById('rt-restart');
-  if(!panel || !logEl || !badge) return;
+  const btPanel = document.getElementById('bt-panel');
+  const btLogEl = document.getElementById('bt-log');
+  const btBadge = document.getElementById('bt-badge');
+  const btMinBtn = document.getElementById('bt-min');
+  if(!panelsWrap || !panel || !logEl || !badge) return;
 
-  const logBox = document.getElementById('rt-log');
-  function positionPanel(){
-    if(window.innerWidth < 1400) { panel.style.top = ''; if(logBox) logBox.style.height = ''; return; }
+  function positionPanels(){
+    if(window.innerWidth < 1400) { panelsWrap.style.top = ''; return; }
     const heroInner = document.querySelector('.hero-inner');
     const nameEl = document.querySelector('.hero-name');
-    const heroBar = document.querySelector('.hero-bar');
     if(!heroInner || !nameEl) return;
     const innerRect = heroInner.getBoundingClientRect();
     const nameRect = nameEl.getBoundingClientRect();
-    const top = Math.round(nameRect.bottom - innerRect.top + 28);
-    panel.style.top = top + 'px';
-
-    if(logBox && heroBar){
-      const headH = 41;
-      const barRect = heroBar.getBoundingClientRect();
-      const available = barRect.top - nameRect.bottom - 28 - headH - 24;
-      const h = Math.max(140, Math.min(260, Math.round(available)));
-      logBox.style.height = h + 'px';
-    }
+    panelsWrap.style.top = Math.round(nameRect.bottom - innerRect.top + 28) + 'px';
   }
-  positionPanel();
-  window.addEventListener('resize', positionPanel);
+  positionPanels();
+  window.addEventListener('resize', positionPanels);
   if(document.fonts && document.fonts.ready){
-    document.fonts.ready.then(positionPanel);
+    document.fonts.ready.then(positionPanels);
   }
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1161,6 +1214,7 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
         logEl.innerHTML = '';
         setBadge('INICIANDO', '');
         runStep(0);
+        startBlueTeam();
       }, 5500);
       return;
     }
@@ -1171,16 +1225,63 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
     timer = setTimeout(() => runStep(i + 1), delay);
   }
 
+  // BLUE TEAM — SOC detection log, reacts to the red-team timeline above
+  const BLUE_SCRIPT = [
+    { at:1600, t:'det',  badge:'MONITORANDO', m:'[Wazuh] New asset discovered on VLAN10 (10.10.14.22)' },
+    { at:2900, t:'warn', badge:'ALERTA',       m:'[Suricata] Directory brute-force pattern detected' },
+    { at:3900, t:'warn',                       m:'[EDR] Suspicious file upload flagged (upload.php)' },
+    { at:4850, t:'crit', badge:'INCIDENTE',    m:'[EDR] Reverse shell behavior detected — PID 4821' },
+    { at:5700, t:'warn',                       m:'[SIEM] Abnormal TGS request spike (Kerberoasting)' },
+    { at:7300, t:'crit', badge:'CRÍTICO',      m:'[SOC] DCSync activity detected — Incident #4471 opened' },
+    { at:7700, t:'win',                        m:'[IR] Escalated to on-call — CORP\\\\Administrator compromised' },
+  ];
+  let btTimers = [];
+
+  function btSetBadge(text, cls){
+    if(!btBadge) return;
+    btBadge.textContent = text;
+    btBadge.className = 'rt-badge bt-badge' + (cls ? ' ' + cls : '');
+  }
+  function btAddLine(entry){
+    if(!btLogEl) return;
+    const div = document.createElement('div');
+    div.className = 'rt-line ' + entry.t;
+    div.textContent = entry.m;
+    btLogEl.appendChild(div);
+    btLogEl.scrollTop = btLogEl.scrollHeight;
+  }
+  function stopBlueTeam(){
+    btTimers.forEach(clearTimeout);
+    btTimers = [];
+  }
+  function startBlueTeam(){
+    if(!btLogEl) return;
+    stopBlueTeam();
+    btLogEl.innerHTML = '';
+    btSetBadge('MONITORANDO', '');
+    BLUE_SCRIPT.forEach(entry => {
+      const t = setTimeout(() => {
+        btAddLine(entry);
+        if(entry.badge) btSetBadge(entry.badge, badgeClassFor(entry.t));
+      }, reduceMotion ? 0 : entry.at);
+      btTimers.push(t);
+    });
+  }
+
   function start(){
     running = true;
     clearTimeout(timer);
     logEl.innerHTML = '';
     setBadge('INICIANDO', '');
     runStep(0);
+    startBlueTeam();
   }
 
   minBtn.addEventListener('click', () => panel.classList.toggle('minimized'));
   restartBtn.addEventListener('click', start);
+  if(btMinBtn && btPanel){
+    btMinBtn.addEventListener('click', () => btPanel.classList.toggle('minimized'));
+  }
 
   const startBtn = document.getElementById('rt-start-btn');
   if(startBtn){
