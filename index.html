@@ -217,39 +217,42 @@ nav{
 
 .explosion-overlay{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;}
 .explosion-flash{position:absolute;inset:0;background:radial-gradient(circle,#fff 0%,#ffb347 22%,rgba(255,120,30,.4) 45%,transparent 72%);opacity:0;}
-.explosion-overlay.active .explosion-flash{animation:explFlash 1s ease-out forwards;}
+.explosion-overlay.active .explosion-flash{animation:explFlash 3.2s ease-out forwards;}
 @keyframes explFlash{0%{opacity:0;}8%{opacity:1;}100%{opacity:0;}}
 .explosion-ring{
   position:absolute;top:50%;left:50%;width:10px;height:10px;
   border:5px solid rgba(255,170,60,.85);border-radius:50%;
   transform:translate(-50%,-50%);opacity:0;
 }
-.explosion-overlay.active .explosion-ring{animation:explRing .85s cubic-bezier(.15,.7,.3,1) forwards;}
+.explosion-overlay.active .explosion-ring{animation:explRing 3.2s cubic-bezier(.15,.7,.3,1) forwards;}
 @keyframes explRing{
   0%{width:10px;height:10px;opacity:1;border-width:8px;}
-  100%{width:2400px;height:2400px;opacity:0;border-width:1px;}
+  100%{width:220vmax;height:220vmax;opacity:0;border-width:1px;}
 }
 
 .smoke-overlay{position:fixed;inset:0;pointer-events:none;z-index:9997;overflow:hidden;}
+.smoke-wash{position:absolute;inset:0;background:rgba(200,200,205,.5);opacity:0;}
+.smoke-overlay.active .smoke-wash{animation:smokeWash 3.2s ease-in-out forwards;}
+@keyframes smokeWash{0%{opacity:0;}18%{opacity:.85;}70%{opacity:.65;}100%{opacity:0;}}
 .smoke-puff{
   position:absolute;border-radius:50%;
   background:radial-gradient(circle,rgba(225,225,225,.92) 0%,rgba(190,190,195,.55) 45%,transparent 75%);
-  filter:blur(20px);opacity:0;
+  filter:blur(24px);opacity:0;
 }
-.smoke-overlay.active .p1{width:340px;height:340px;left:26%;top:42%;animation:smokeRise 6s ease-out forwards;}
-.smoke-overlay.active .p2{width:300px;height:300px;left:52%;top:56%;animation:smokeRise 6s .35s ease-out forwards;}
-.smoke-overlay.active .p3{width:320px;height:320px;left:42%;top:30%;animation:smokeRise 6s .7s ease-out forwards;}
-.smoke-overlay.active .p4{width:260px;height:260px;left:64%;top:34%;animation:smokeRise 6s 1.1s ease-out forwards;}
+.smoke-overlay.active .p1{width:60vmax;height:60vmax;left:-10%;top:-10%;animation:smokeRise 3.2s ease-out forwards;}
+.smoke-overlay.active .p2{width:55vmax;height:55vmax;left:60%;top:-5%;animation:smokeRise 3.2s .1s ease-out forwards;}
+.smoke-overlay.active .p3{width:58vmax;height:58vmax;left:-5%;top:55%;animation:smokeRise 3.2s .2s ease-out forwards;}
+.smoke-overlay.active .p4{width:60vmax;height:60vmax;left:55%;top:55%;animation:smokeRise 3.2s .3s ease-out forwards;}
 @keyframes smokeRise{
-  0%{opacity:0;transform:scale(.55) translateY(25px);}
-  18%{opacity:.85;}
-  100%{opacity:0;transform:scale(1.7) translateY(-50px);}
+  0%{opacity:0;transform:scale(.5) translateY(25px);}
+  20%{opacity:.9;}
+  100%{opacity:0;transform:scale(1.4) translateY(-40px);}
 }
 
 @media (prefers-reduced-motion: reduce){
   .flash-overlay.active{animation:none;opacity:0;}
   .explosion-overlay.active .explosion-flash,.explosion-overlay.active .explosion-ring{animation:none;opacity:0;}
-  .smoke-overlay.active .smoke-puff{animation:none;opacity:0;}
+  .smoke-overlay.active .smoke-puff,.smoke-overlay.active .smoke-wash{animation:none;opacity:0;}
 }
 
 /* HERO */
@@ -621,6 +624,7 @@ footer span{color:var(--acc);}
   <div class="explosion-ring"></div>
 </div>
 <div class="smoke-overlay" id="smoke-overlay">
+  <div class="smoke-wash"></div>
   <div class="smoke-puff p1"></div>
   <div class="smoke-puff p2"></div>
   <div class="smoke-puff p3"></div>
@@ -1208,7 +1212,7 @@ gsap.registerPlugin(ScrollTrigger);
     overlay.classList.remove('active');
     void overlay.offsetWidth;
     overlay.classList.add('active');
-    setTimeout(() => overlay.classList.remove('active'), 1100);
+    setTimeout(() => overlay.classList.remove('active'), 3200);
   });
 })();
 
@@ -1221,7 +1225,7 @@ gsap.registerPlugin(ScrollTrigger);
     overlay.classList.remove('active');
     void overlay.offsetWidth;
     overlay.classList.add('active');
-    setTimeout(() => overlay.classList.remove('active'), 7200);
+    setTimeout(() => overlay.classList.remove('active'), 3200);
   });
 })();
 
