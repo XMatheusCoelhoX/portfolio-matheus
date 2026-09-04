@@ -110,13 +110,16 @@ body{
 
 /* RED TEAM LIVE PANEL */
 .rt-panel{
-  align-self:flex-end;margin:1.6rem 0 2.2rem;z-index:3;
-  width:380px;max-width:min(90vw,380px);
+  position:static;margin:1.5rem 0 0;z-index:3;
+  width:100%;max-width:420px;
   background:rgba(9,10,9,.88);backdrop-filter:blur(10px);
   border:1px solid rgba(57,255,20,.28);border-radius:6px;
   box-shadow:0 10px 40px rgba(0,0,0,.5),0 0 22px rgba(57,255,20,.08);
   font-family:'JetBrains Mono',monospace;
   overflow:hidden;
+}
+@media(min-width:1200px){
+  .rt-panel{position:absolute;top:12rem;right:0;margin:0;width:380px;max-width:380px;}
 }
 .rt-head{
   display:flex;align-items:center;justify-content:space-between;
@@ -169,10 +172,6 @@ body{
 .rt-line.win{color:#fff;text-shadow:0 0 6px rgba(255,255,255,.5);font-weight:600;}
 .rt-cursor{display:inline-block;width:6px;height:11px;background:var(--acc);margin-left:2px;vertical-align:-1px;animation:blink 1s steps(1) infinite;}
 @keyframes rtIn{to{opacity:1;transform:translateY(0);}}
-
-@media(max-width:640px){
-  .rt-panel{align-self:stretch;width:auto;max-width:none;}
-}
 @media (prefers-reduced-motion: reduce){
   .rt-line{animation:none;opacity:1;transform:none;}
   .rt-dot,.rt-cursor{animation:none;}
