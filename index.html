@@ -178,7 +178,7 @@ nav{
   background:linear-gradient(90deg,rgba(9,9,10,.95) 0%,rgba(14,18,15,.95) 100%);
   backdrop-filter:blur(20px);
 }
-.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.08em;color:var(--acc);}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.08em;color:var(--acc);line-height:1;display:flex;align-items:center;}
 .nav-links{display:flex;gap:2.5rem;list-style:none;}
 .nav-links a{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--dim);text-decoration:none;letter-spacing:.14em;text-transform:uppercase;transition:color .25s;}
 .nav-links a:hover{color:var(--acc);}
@@ -191,6 +191,7 @@ nav{
 .nav-pill::before{content:'';width:5px;height:5px;background:var(--acc);border-radius:50%;animation:blink 2s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
+.nav-right{display:flex;align-items:center;gap:.9rem;}
 .nav-nades{display:flex;align-items:center;gap:.4rem;}
 .nav-flash{
   background:transparent;border:1px solid var(--line);color:var(--dim);
@@ -501,12 +502,16 @@ footer span{color:var(--acc);}
 .reveal.visible{opacity:1;transform:translateY(0);}
 
 @media(max-width:768px){
-  .cur,.cur-ring{display:none;}
+  .crosshair{display:none;}
   body{cursor:auto;}
 
-  nav{padding:1rem 1.5rem;}
+  nav{padding:1rem 1.2rem;flex-wrap:wrap;row-gap:.6rem;}
   .nav-links{display:none;}
-  .nav-pill{font-size:.55rem;padding:.25rem .6rem;}
+  .nav-right{gap:.6rem;margin-left:auto;}
+  .nav-nades{gap:.3rem;}
+  .nav-flash{width:32px;height:32px;}
+  .nav-pill{font-size:.55rem;padding:.3rem .6rem;white-space:nowrap;}
+  .rt-btn{width:24px;height:24px;}
 
   #hero{padding:6rem 1.5rem 9rem;}
   .hero-name{font-size:clamp(1.05rem,5.4vw,1.7rem);line-height:1.2;white-space:normal;}
@@ -586,6 +591,7 @@ footer span{color:var(--acc);}
     <li><a href="#projetos">Projetos</a></li>
     <li><a href="#contato">Contato</a></li>
   </ul>
+  <div class="nav-right">
   <div class="nav-nades">
     <button class="nav-flash" id="nav-flash" title="Flashbang" type="button" aria-label="Detonar flashbang">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -616,6 +622,7 @@ footer span{color:var(--acc);}
     </button>
   </div>
   <div class="nav-pill">Aberto a projetos de segurança</div>
+  </div>
 </nav>
 
 <div class="flash-overlay" id="flash-overlay"></div>
