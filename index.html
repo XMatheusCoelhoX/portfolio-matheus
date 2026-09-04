@@ -212,7 +212,7 @@ nav{
 .hero-tag span{color:var(--dim);}
 .hero-name{
   font-family:'Orbitron',sans-serif;font-weight:900;
-  font-size:clamp(1.8rem,4.6vw,5.6rem);
+  font-size:clamp(1.8rem,6vw,8rem);
   line-height:1.15;letter-spacing:.005em;white-space:nowrap;
   margin-bottom:1rem;
   animation:fadeUp .6s .08s ease both;
@@ -263,6 +263,7 @@ nav{
 
 /* SECTIONS */
 section{padding:6rem 4rem;border-top:1px solid var(--line);position:relative;}
+#sobre{border-top-color:rgba(255,255,255,.05);}
 section:nth-child(even){background:linear-gradient(180deg,rgba(20,26,22,.6) 0%,transparent 100%);}
 section:nth-child(odd){background:linear-gradient(180deg,transparent 0%,rgba(16,22,18,.4) 100%);}
 .s-label{
@@ -1071,14 +1072,25 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
   const restartBtn = document.getElementById('rt-restart');
   if(!panel || !logEl || !badge) return;
 
+  const logBox = document.getElementById('rt-log');
   function positionPanel(){
-    if(window.innerWidth < 1400) { panel.style.top = ''; return; }
+    if(window.innerWidth < 1400) { panel.style.top = ''; if(logBox) logBox.style.height = ''; return; }
     const heroInner = document.querySelector('.hero-inner');
     const nameEl = document.querySelector('.hero-name');
+    const heroBar = document.querySelector('.hero-bar');
     if(!heroInner || !nameEl) return;
     const innerRect = heroInner.getBoundingClientRect();
     const nameRect = nameEl.getBoundingClientRect();
-    panel.style.top = Math.round(nameRect.bottom - innerRect.top + 28) + 'px';
+    const top = Math.round(nameRect.bottom - innerRect.top + 28);
+    panel.style.top = top + 'px';
+
+    if(logBox && heroBar){
+      const headH = 41;
+      const barRect = heroBar.getBoundingClientRect();
+      const available = barRect.top - nameRect.bottom - 28 - headH - 24;
+      const h = Math.max(140, Math.min(260, Math.round(available)));
+      logBox.style.height = h + 'px';
+    }
   }
   positionPanel();
   window.addEventListener('resize', positionPanel);
