@@ -595,8 +595,15 @@ section:nth-child(odd){background:linear-gradient(180deg,transparent 0%,rgba(16,
 .stack-chip:hover{border-color:rgba(57,255,20,.35);color:var(--acc);}
 
 /* ARSENAL */
-.arsenal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.4rem 2.5rem;}
+.arsenal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.4rem 2.5rem;margin-bottom:2.2rem;}
 .arsenal-cat{padding-bottom:.5rem;}
+.arsenal-os-title{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;
+  letter-spacing:.12em;margin:2.4rem 0 1.2rem;padding-bottom:.6rem;
+  border-bottom:1px solid var(--line);
+}
+.arsenal-os-title.acc-linux{color:var(--acc);}
+.arsenal-os-title.acc-windows{color:#7fc4ff;}
 .arsenal-title{
   font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.03em;
   color:var(--white);margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem;
@@ -1021,6 +1028,8 @@ footer span{color:var(--acc);}
 
   <div class="stack-block" id="arsenal">
     <div class="stack-sub">Arsenal Red Team</div>
+
+    <div class="arsenal-os-title acc-linux">// LINUX & GERAL</div>
     <div class="arsenal-grid">
 
     <div class="arsenal-cat">
@@ -1036,7 +1045,8 @@ footer span{color:var(--acc);}
       <div class="arsenal-title"><span class="dash">//</span> Web / API</div>
       <div class="stack-row">
         <span class="stack-chip">Burp Suite</span><span class="stack-chip">ffuf</span>
-        <span class="stack-chip">Feroxbuster</span><span class="stack-chip">Katana</span>
+        <span class="stack-chip">Gobuster</span><span class="stack-chip">Feroxbuster</span>
+        <span class="stack-chip">sqlmap</span><span class="stack-chip">Katana</span>
         <span class="stack-chip">Arjun</span><span class="stack-chip">Dalfox</span>
       </div>
     </div>
@@ -1060,21 +1070,10 @@ footer span{color:var(--acc);}
     </div>
 
     <div class="arsenal-cat">
-      <div class="arsenal-title"><span class="dash">//</span> AD / Windows</div>
+      <div class="arsenal-title"><span class="dash">//</span> PrivEsc Linux</div>
       <div class="stack-row">
-        <span class="stack-chip">BloodHound</span><span class="stack-chip">NetExec</span>
-        <span class="stack-chip">Impacket</span><span class="stack-chip">Rubeus</span>
-        <span class="stack-chip">Certipy</span><span class="stack-chip">Mimikatz</span>
-        <span class="stack-chip">PowerView</span><span class="stack-chip">SharpHound</span>
-      </div>
-    </div>
-
-    <div class="arsenal-cat">
-      <div class="arsenal-title"><span class="dash">//</span> PrivEsc</div>
-      <div class="stack-row">
-        <span class="stack-chip">WinPEAS</span><span class="stack-chip">LinPEAS</span>
-        <span class="stack-chip">PowerUp</span><span class="stack-chip">PrivescCheck</span>
-        <span class="stack-chip">GTFOBins</span><span class="stack-chip">LOLBAS</span>
+        <span class="stack-chip">LinPEAS</span><span class="stack-chip">pspy</span>
+        <span class="stack-chip">Linux Exploit Suggester</span><span class="stack-chip">GTFOBins</span>
       </div>
     </div>
 
@@ -1083,7 +1082,6 @@ footer span{color:var(--acc);}
       <div class="stack-row">
         <span class="stack-chip">Hashcat</span><span class="stack-chip">John the Ripper</span>
         <span class="stack-chip">Hydra</span><span class="stack-chip">Kerbrute</span>
-        <span class="stack-chip">LaZagne</span><span class="stack-chip">Snaffler</span>
       </div>
     </div>
 
@@ -1110,6 +1108,42 @@ footer span{color:var(--acc);}
       <div class="stack-row">
         <span class="stack-chip">Trivy</span><span class="stack-chip">kube-hunter</span>
         <span class="stack-chip">Kubescape</span><span class="stack-chip">Peirates</span>
+      </div>
+    </div>
+
+    </div>
+
+    <div class="arsenal-os-title acc-windows">// WINDOWS & ACTIVE DIRECTORY</div>
+    <div class="arsenal-grid">
+
+    <div class="arsenal-cat">
+      <div class="arsenal-title"><span class="dash">//</span> Enumeração AD</div>
+      <div class="stack-row">
+        <span class="stack-chip">BloodHound</span><span class="stack-chip">SharpHound</span>
+        <span class="stack-chip">PowerView</span><span class="stack-chip">NetExec</span>
+      </div>
+    </div>
+
+    <div class="arsenal-cat">
+      <div class="arsenal-title"><span class="dash">//</span> Ataque a Kerberos / AD</div>
+      <div class="stack-row">
+        <span class="stack-chip">Impacket</span><span class="stack-chip">Rubeus</span>
+        <span class="stack-chip">Certipy</span><span class="stack-chip">Mimikatz</span>
+      </div>
+    </div>
+
+    <div class="arsenal-cat">
+      <div class="arsenal-title"><span class="dash">//</span> PrivEsc Windows</div>
+      <div class="stack-row">
+        <span class="stack-chip">WinPEAS</span><span class="stack-chip">PowerUp</span>
+        <span class="stack-chip">PrivescCheck</span><span class="stack-chip">LOLBAS</span>
+      </div>
+    </div>
+
+    <div class="arsenal-cat">
+      <div class="arsenal-title"><span class="dash">//</span> Credenciais Windows</div>
+      <div class="stack-row">
+        <span class="stack-chip">LaZagne</span><span class="stack-chip">Snaffler</span>
       </div>
     </div>
 
