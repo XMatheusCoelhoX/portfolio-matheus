@@ -58,68 +58,18 @@ body{
 .crosshair.fire .ch-circle{box-shadow:0 0 22px 6px rgba(57,255,20,.55) inset;border-color:#fff;}
 .crosshair.fire .ch-line{background:#fff;box-shadow:0 0 14px #fff;}
 
-/* AWP TARGET — shooting range easter egg */
-.awp-target{
-  position:absolute;width:64px;height:64px;z-index:3;cursor:none;
-  transition:top .3s cubic-bezier(.3,1.4,.5,1),left .3s cubic-bezier(.3,1.4,.5,1);
-}
-.awp-target::after{
-  content:'';position:absolute;inset:-10px;border-radius:50%;
-  border:1px dashed rgba(57,255,20,.5);animation:spin 6s linear infinite;
-}
-.awp-target .ring{position:absolute;top:50%;left:50%;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 10px rgba(0,0,0,.5);}
-.awp-target .r4{width:64px;height:64px;background:#0d0d0d;border:2px solid var(--acc);box-shadow:0 0 14px rgba(57,255,20,.35),0 0 10px rgba(0,0,0,.6);}
-.awp-target .r3{width:48px;height:48px;background:var(--acc);box-shadow:0 0 10px rgba(57,255,20,.5);}
-.awp-target .r2{width:32px;height:32px;background:#0d0d0d;border:1px solid rgba(255,255,255,.5);}
-.awp-target .r1{width:18px;height:18px;background:var(--acc);}
-.awp-target .bullseye{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 6px #fff;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-.awp-hud{
-  position:absolute;top:6.5rem;right:2rem;z-index:3;
-  font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--acc);
-  border:1px solid rgba(57,255,20,.3);padding:.35rem .8rem;border-radius:2px;
-  letter-spacing:.1em;background:rgba(9,9,9,.5);
-}
-
-.hitmarker{
-  position:fixed;width:36px;height:36px;pointer-events:none;z-index:9999;
-  transform:translate(-50%,-50%) scale(.4);opacity:0;
-  transition:transform .18s ease-out,opacity .18s ease-out;
-}
-.hitmarker.show{transform:translate(-50%,-50%) scale(1);opacity:1;}
-.hitmarker::before,.hitmarker::after{
-  content:'';position:absolute;top:50%;left:50%;width:38px;height:3px;
-  background:#fff;box-shadow:0 0 8px #fff,0 0 14px var(--acc);
-}
-.hitmarker::before{transform:translate(-50%,-50%) rotate(45deg);}
-.hitmarker::after{transform:translate(-50%,-50%) rotate(-45deg);}
-
-.bullet-hole{
-  position:fixed;width:14px;height:14px;border-radius:50%;pointer-events:none;z-index:40;
-  background:radial-gradient(circle,#050505 40%,rgba(5,5,5,.5) 70%,transparent 100%);
-  box-shadow:0 0 6px rgba(0,0,0,.7);
-  animation:holeFade 2.4s ease forwards;
-}
-@keyframes holeFade{0%,75%{opacity:1}100%{opacity:0}}
-
-@media (prefers-reduced-motion: reduce){
-  .awp-target::after{animation:none;}
-  .awp-target{transition:none;}
-}
-
 /* RED TEAM LIVE PANEL */
 .rt-panel{
   position:static;margin:1.5rem 0 0;z-index:3;
-  width:100%;max-width:420px;
+  width:100%;max-width:520px;
   background:rgba(9,10,9,.88);backdrop-filter:blur(10px);
   border:1px solid rgba(57,255,20,.28);border-radius:6px;
   box-shadow:0 10px 40px rgba(0,0,0,.5),0 0 22px rgba(57,255,20,.08);
   font-family:'JetBrains Mono',monospace;
   overflow:hidden;
 }
-@media(min-width:1200px){
-  .rt-panel{position:absolute;top:12rem;right:0;margin:0;width:380px;max-width:380px;}
+@media(min-width:1400px){
+  .rt-panel{position:absolute;top:0;right:0;margin:0;width:500px;max-width:500px;}
 }
 .rt-head{
   display:flex;align-items:center;justify-content:space-between;
@@ -251,7 +201,7 @@ nav{
   background:radial-gradient(circle,rgba(57,255,20,.07) 0%,transparent 65%);
   top:50%;left:40%;transform:translate(-50%,-50%);pointer-events:none;
 }
-.hero-inner{position:relative;z-index:2;max-width:1320px;flex:1;display:flex;flex-direction:column;justify-content:center;}
+.hero-inner{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;}
 .hero-tag{
   display:inline-flex;align-items:center;gap:.6rem;
   font-family:'JetBrains Mono',monospace;font-size:.62rem;
@@ -262,7 +212,7 @@ nav{
 .hero-tag span{color:var(--dim);}
 .hero-name{
   font-family:'Orbitron',sans-serif;font-weight:900;
-  font-size:clamp(1.8rem,5vw,4.6rem);
+  font-size:clamp(1.8rem,4.6vw,5.6rem);
   line-height:1.15;letter-spacing:.005em;white-space:nowrap;
   margin-bottom:1rem;
   animation:fadeUp .6s .08s ease both;
@@ -568,10 +518,6 @@ footer span{color:var(--acc);}
 <section id="hero" style="border:none;">
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
-  <div class="awp-hud" id="awp-hud">ALVOS: 0</div>
-  <div class="awp-target" id="awp-target">
-    <div class="ring r4"></div><div class="ring r3"></div><div class="ring r2"></div><div class="ring r1"></div><div class="bullseye"></div>
-  </div>
   <div class="hero-inner">
     <div class="hero-tag">✦ <span>Portfólio Profissional</span> · 2026</div>
     <div class="hero-name">
@@ -1116,79 +1062,6 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
   el.addEventListener('mouseleave',()=>{crosshair.classList.remove('locked');});
 });
 
-// AWP TARGET — shooting range easter egg
-(function(){
-  const hero = document.getElementById('hero');
-  const target = document.getElementById('awp-target');
-  const hud = document.getElementById('awp-hud');
-  if(!hero || !target || !hud) return;
-  let score = 0;
-
-  function overlaps(vx, vy, w, h, rect){
-    return vx < rect.right && vx + w > rect.left && vy < rect.bottom && vy + h > rect.top;
-  }
-  function randomPos(){
-    const rect = hero.getBoundingClientRect();
-    const rtPanel = document.getElementById('rt-panel');
-    const nameEl = document.querySelector('.hero-name');
-    const panelRect = rtPanel ? rtPanel.getBoundingClientRect() : null;
-    const nameRect = nameEl ? nameEl.getBoundingClientRect() : null;
-    let x, y, tries = 0;
-    do {
-      x = rect.width * (0.55 + Math.random() * 0.4);
-      y = rect.height * (0.03 + Math.random() * 0.62);
-      tries++;
-    } while(
-      tries < 20 &&
-      ((panelRect && overlaps(rect.left + x, rect.top + y, 64, 64, panelRect)) ||
-       (nameRect && overlaps(rect.left + x, rect.top + y, 64, 64, nameRect)))
-    );
-    target.style.left = x + 'px';
-    target.style.top = y + 'px';
-  }
-  randomPos();
-  window.addEventListener('resize', randomPos);
-
-  function muzzleFlash(){
-    crosshair.classList.add('fire');
-    setTimeout(() => crosshair.classList.remove('fire'), 140);
-  }
-
-  function spawnHitmarker(x, y){
-    const hm = document.createElement('div');
-    hm.className = 'hitmarker';
-    hm.style.left = x + 'px';
-    hm.style.top = y + 'px';
-    document.body.appendChild(hm);
-    requestAnimationFrame(() => hm.classList.add('show'));
-    setTimeout(() => hm.remove(), 260);
-  }
-
-  function spawnBulletHole(x, y){
-    const bh = document.createElement('div');
-    bh.className = 'bullet-hole';
-    bh.style.left = (x - 7) + 'px';
-    bh.style.top = (y - 7) + 'px';
-    document.body.appendChild(bh);
-    setTimeout(() => bh.remove(), 2500);
-  }
-
-  target.addEventListener('click', e => {
-    e.stopPropagation();
-    score++;
-    hud.textContent = 'ALVOS: ' + score;
-    spawnHitmarker(e.clientX, e.clientY);
-    muzzleFlash();
-    randomPos();
-  });
-
-  document.addEventListener('click', e => {
-    if(e.target.closest('#awp-target')) return;
-    muzzleFlash();
-    spawnBulletHole(e.clientX, e.clientY);
-  });
-})();
-
 // RED TEAM LIVE PANEL — simulated recon-to-domain-admin op (illustrative only, no real target)
 (function(){
   const panel = document.getElementById('rt-panel');
@@ -1197,6 +1070,21 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
   const minBtn = document.getElementById('rt-min');
   const restartBtn = document.getElementById('rt-restart');
   if(!panel || !logEl || !badge) return;
+
+  function positionPanel(){
+    if(window.innerWidth < 1400) { panel.style.top = ''; return; }
+    const heroInner = document.querySelector('.hero-inner');
+    const nameEl = document.querySelector('.hero-name');
+    if(!heroInner || !nameEl) return;
+    const innerRect = heroInner.getBoundingClientRect();
+    const nameRect = nameEl.getBoundingClientRect();
+    panel.style.top = Math.round(nameRect.bottom - innerRect.top + 28) + 'px';
+  }
+  positionPanel();
+  window.addEventListener('resize', positionPanel);
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(positionPanel);
+  }
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
