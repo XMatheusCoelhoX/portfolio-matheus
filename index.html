@@ -240,20 +240,20 @@ nav{
 
 .explosion-overlay{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;}
 .explosion-flash{position:absolute;inset:0;background:radial-gradient(circle,#fff 0%,#fff 30%,#ffe9c2 55%,#ffb347 78%,#e8792a 100%);opacity:0;}
-.explosion-overlay.active .explosion-flash{animation:explFlash 1s cubic-bezier(.1,.8,.2,1) forwards;}
-@keyframes explFlash{0%{opacity:0;}6%{opacity:1;}45%{opacity:.4;}100%{opacity:0;}}
+.explosion-overlay.active .explosion-flash{animation:explFlash 3.2s cubic-bezier(.1,.8,.2,1) forwards;}
+@keyframes explFlash{0%{opacity:0;}4%{opacity:1;}60%{opacity:.5;}100%{opacity:0;}}
 
 .explosion-fire{
   position:absolute;inset:0;
   background:radial-gradient(circle,rgba(255,235,180,.95) 0%,rgba(255,140,40,.85) 30%,rgba(210,60,10,.6) 55%,rgba(120,20,5,.4) 80%,rgba(90,15,5,.2) 100%);
   opacity:0;mix-blend-mode:screen;
 }
-.explosion-overlay.active .explosion-fire{animation:explFire 1.6s ease-out forwards;}
+.explosion-overlay.active .explosion-fire{animation:explFire 3.2s ease-out forwards;}
 @keyframes explFire{
   0%{opacity:0;transform:scale(.25);}
-  12%{opacity:1;transform:scale(1);}
-  45%{opacity:.65;transform:scale(1.15);}
-  100%{opacity:0;transform:scale(1.5);}
+  8%{opacity:1;transform:scale(1);}
+  55%{opacity:.6;transform:scale(1.2);}
+  100%{opacity:0;transform:scale(1.6);}
 }
 
 .explosion-ring{
