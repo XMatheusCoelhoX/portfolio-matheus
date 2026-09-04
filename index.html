@@ -1022,6 +1022,7 @@ footer span{color:var(--acc);}
     <div class="sk-card card-hover"><div class="sk-name">LGPD & Compliance</div><div class="sk-track"><div class="sk-fill" data-w="80"></div></div></div>
     <div class="sk-card card-hover"><div class="sk-name">Metasploit & Burp Suite</div><div class="sk-track"><div class="sk-fill" data-w="86"></div></div></div>
     <div class="sk-card card-hover"><div class="sk-name">Hardening & Gestão de Vulnerabilidades</div><div class="sk-track"><div class="sk-fill" data-w="87"></div></div></div>
+    <div class="sk-card card-hover"><div class="sk-name">Docker & Containers</div><div class="sk-track"><div class="sk-fill" data-w="82"></div></div></div>
   </div>
 
 
@@ -1060,8 +1061,8 @@ footer span{color:var(--acc);}
       <div class="stack-row">
         <span class="stack-chip">Nmap</span><span class="stack-chip">Masscan</span>
         <span class="stack-chip">RustScan</span><span class="stack-chip">Netcat</span>
-        <span class="stack-chip">Wireshark</span><span class="stack-chip">Responder</span>
-        <span class="stack-chip">Ligolo-ng</span>
+        <span class="stack-chip">tcpdump</span><span class="stack-chip">Wireshark</span>
+        <span class="stack-chip">Responder</span><span class="stack-chip">Ligolo-ng</span>
       </div>
     </div>
 
@@ -1085,6 +1086,7 @@ footer span{color:var(--acc);}
       <div class="stack-row">
         <span class="stack-chip">Hashcat</span><span class="stack-chip">John the Ripper</span>
         <span class="stack-chip">Hydra</span><span class="stack-chip">Kerbrute</span>
+        <span class="stack-chip">Hashdump</span>
       </div>
     </div>
 
@@ -1121,6 +1123,7 @@ footer span{color:var(--acc);}
       <div class="stack-row">
         <span class="stack-chip">BloodHound</span><span class="stack-chip">SharpHound</span>
         <span class="stack-chip">PowerView</span><span class="stack-chip">NetExec</span>
+        <span class="stack-chip">enum4linux</span>
       </div>
     </div>
 
@@ -1245,6 +1248,38 @@ footer span{color:var(--acc);}
           <span class="xtag">134 Módulos</span><span class="xtag">WebSocket Real-time</span>
           <span class="xtag">Active Directory</span><span class="xtag">Bug Bounty</span>
           <span class="xtag">Cloud & SaaS</span><span class="xtag">LLM/IA</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="xp-card card-hover">
+      <div>
+        <div class="xp-period">PROJETO<br>PRIVADO</div>
+        <div class="xp-company">Prefeitura de Paraíba do Sul<br>Lei Municipal 4.610/2025</div>
+      </div>
+      <div>
+        <div class="xp-role">Emprega Paraíba do Sul</div>
+        <div class="xp-desc">Plataforma web (Django) que implementa o Banco de Currículos Municipal instituído pela Lei 4.610/2025, conectando candidatos e empresas locais sem nunca expor uma listagem pública de currículos — toda visualização exige validação institucional da empresa, autenticação e consentimento explícito (opt-in) do candidato, com auditoria de cada acesso. Painel do candidato com edição de currículo, exportação de dados em 4 formatos (direito de portabilidade LGPD) e busca de vagas; para empresas, busca autenticada de candidatos e gestão de vagas; para a Secretaria, dashboard administrativo em tempo real com relatórios. CPF cifrado (Fernet + HMAC-SHA256), senha em Argon2, 2FA obrigatório para staff, rate limiting em duas camadas, CSP restritiva, PWA instalável, acessibilidade WCAG 2.1 AA e mais de 135 testes automatizados com CI.</div>
+        <div class="xp-tags">
+          <span class="xtag">Django</span><span class="xtag">PostgreSQL</span>
+          <span class="xtag">Celery/Redis</span><span class="xtag">LGPD</span>
+          <span class="xtag">2FA</span><span class="xtag">PWA</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="xp-card card-hover">
+      <div>
+        <div class="xp-period">PROJETO<br>PRIVADO</div>
+        <div class="xp-company">Prefeitura de Paraíba do Sul<br>MVP · Fase 0/1</div>
+      </div>
+      <div>
+        <div class="xp-role">Gerador de Licitação</div>
+        <div class="xp-desc">Plataforma que assiste servidores públicos na redação de ETP, TR e DFD (Lei 14.133/2021), gerando cada seção do documento com um LLM rodando localmente (Ollama) — nenhum dado de licitação trafega para provedores de IA externos. A IA nunca calcula valores: quantitativos e totais são computados em código e apenas reproduzidos no texto, com correção automática pós-processamento contra alucinação numérica. Fluxo de aprovação com segregação de função (quem redige nunca aprova o próprio documento), isolamento multi-tenant por secretaria, RBAC com 5 papéis, e geração final por injeção cirúrgica no .docx oficial, preservando estilos e logotipo, validada por teste automatizado de paridade estrutural. Escaneamento antivírus (ClamAV), sanitização de upload contra XXE/zip-bomb, JWT rotativo com detecção de reuso, e pipeline de CI com SAST, SCA e secret scanning.</div>
+        <div class="xp-tags">
+          <span class="xtag">FastAPI</span><span class="xtag">Next.js</span>
+          <span class="xtag">LLM Local (Ollama)</span><span class="xtag">pgvector</span>
+          <span class="xtag">RBAC</span>
         </div>
       </div>
     </div>
