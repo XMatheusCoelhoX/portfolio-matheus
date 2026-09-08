@@ -1502,12 +1502,246 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
   }
 })();
 
+// SOUND FX - synthesized via Web Audio API, no external audio files (avoids
+// any licensing issue with real game sound assets). Lazily creates/resumes
+// the AudioContext on first use, since browsers require a user gesture.
+const fxSound = (function(){
+  let actx;
+  function ctx(){
+    if(!actx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return null;
+      actx = new AC();
+    }
+    if(actx.state === 'suspended') { try { actx.resume(); } catch(e){} }
+    return actx;
+  }
+  function noiseBuffer(ac, duration){
+    const size = Math.max(1, Math.floor(ac.sampleRate * duration));
+    const buffer = ac.createBuffer(1, size, ac.sampleRate);
+    const data = buffer.getChannelData(0);
+    for(let i = 0; i < size; i++) data[i] = Math.random() * 2 - 1;
+    return buffer;
+  }
+  function flashbang(){
+    const ac = ctx(); if(!ac) return;
+    const now = ac.currentTime;
+    const noise = ac.createBufferSource();
+    noise.buffer = noiseBuffer(ac, 0.15);
+    const noiseGain = ac.createGain();
+    noiseGain.gain.setValueAtTime(0.8, now);
+    noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+    noise.connect(noiseGain).connect(ac.destination);
+    noise.start(now);
+    const osc = ac.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(3200, now);
+    const oscGain = ac.createGain();
+    oscGain.gain.setValueAtTime(0, now);
+    oscGain.gain.linearRampToValueAtTime(0.14, now + 0.05);
+    oscGain.gain.exponentialRampToValueAtTime(0.001, now + 2.6);
+    osc.connect(oscGain).connect(ac.destination);
+    osc.start(now); osc.stop(now + 2.7);
+  }
+  function explosion(){
+    const ac = ctx(); if(!ac) return;
+    const now = ac.currentTime;
+
+    // Distortion curve for a bit of punch/saturation on the sub thump.
+    function distCurve(amount){
+      const n = 256, curve = new Float32Array(n);
+      for(let i = 0; i < n; i++){
+        const x = (i * 2) / n - 1;
+        curve[i] = ((3 + amount) * x * 20 * (Math.PI / 180)) / (Math.PI + amount * Math.abs(x));
+      }
+      return curve;
+    }
+
+    // 1) Transient crack - the instant of detonation, very short and sharp.
+    const crack = ac.createBufferSource();
+    crack.buffer = noiseBuffer(ac, 0.08);
+    const crackGain = ac.createGain();
+    crackGain.gain.setValueAtTime(1, now);
+    crackGain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+    crack.connect(crackGain).connect(ac.destination);
+    crack.start(now);
+
+    // 2) Sub-bass thump - the felt "punch" of the blast, with light saturation.
+    const sub = ac.createOscillator();
+    sub.type = 'sine';
+    sub.frequency.setValueAtTime(95, now);
+    sub.frequency.exponentialRampToValueAtTime(28, now + 0.45);
+    const shaper = ac.createWaveShaper();
+    shaper.curve = distCurve(18);
+    const subGain = ac.createGain();
+    subGain.gain.setValueAtTime(0.95, now);
+    subGain.gain.exponentialRampToValueAtTime(0.001, now + 1.1);
+    sub.connect(shaper).connect(subGain).connect(ac.destination);
+    sub.start(now); sub.stop(now + 1.2);
+
+    // 3) Mid-body "whump" - the mass of the fireball, bandpassed noise.
+    const body = ac.createBufferSource();
+    body.buffer = noiseBuffer(ac, 0.7);
+    const bodyFilter = ac.createBiquadFilter();
+    bodyFilter.type = 'bandpass';
+    bodyFilter.frequency.setValueAtTime(220, now);
+    bodyFilter.Q.setValueAtTime(0.9, now);
+    const bodyGain = ac.createGain();
+    bodyGain.gain.setValueAtTime(0.7, now + 0.01);
+    bodyGain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
+    body.connect(bodyFilter).connect(bodyGain).connect(ac.destination);
+    body.start(now);
+
+    // 4) Rolling rumble tail - lowpass sweeping downward, like the blast rolling away.
+    const rumble = ac.createBufferSource();
+    rumble.buffer = noiseBuffer(ac, 2.6);
+    const rumbleFilter = ac.createBiquadFilter();
+    rumbleFilter.type = 'lowpass';
+    rumbleFilter.frequency.setValueAtTime(500, now + 0.1);
+    rumbleFilter.frequency.exponentialRampToValueAtTime(70, now + 2.4);
+    const rumbleGain = ac.createGain();
+    rumbleGain.gain.setValueAtTime(0.001, now);
+    rumbleGain.gain.linearRampToValueAtTime(0.32, now + 0.15);
+    rumbleGain.gain.exponentialRampToValueAtTime(0.001, now + 2.6);
+    rumble.connect(rumbleFilter).connect(rumbleGain).connect(ac.destination);
+    rumble.start(now + 0.05);
+
+    // 5) Scattered debris/shrapnel ticks falling after the blast.
+    for(let i = 0; i < 6; i++){
+      const t = now + 0.15 + Math.random() * 0.9;
+      const deb = ac.createBufferSource();
+      deb.buffer = noiseBuffer(ac, 0.04);
+      const debFilter = ac.createBiquadFilter();
+      debFilter.type = 'highpass';
+      debFilter.frequency.setValueAtTime(2500 + Math.random() * 2500, t);
+      const debGain = ac.createGain();
+      debGain.gain.setValueAtTime(0.12 + Math.random() * 0.1, t);
+      debGain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+      deb.connect(debFilter).connect(debGain).connect(ac.destination);
+      deb.start(t);
+    }
+  }
+  function smoke(){
+    const ac = ctx(); if(!ac) return;
+    const now = ac.currentTime;
+    const noise = ac.createBufferSource();
+    noise.buffer = noiseBuffer(ac, 2.2);
+    const filter = ac.createBiquadFilter();
+    filter.type = 'bandpass'; filter.frequency.setValueAtTime(900, now); filter.Q.setValueAtTime(0.6, now);
+    const gain = ac.createGain();
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.16, now + 0.15);
+    gain.gain.linearRampToValueAtTime(0.09, now + 1.5);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 2.2);
+    noise.connect(filter).connect(gain).connect(ac.destination);
+    noise.start(now);
+  }
+  function glitch(){
+    const ac = ctx(); if(!ac) return;
+    const now = ac.currentTime;
+    const total = 2.0;
+
+    // 1) Rising sweep - the signal being "seized" by something not of this world.
+    const rise = ac.createOscillator();
+    rise.type = 'sawtooth';
+    rise.frequency.setValueAtTime(50, now);
+    rise.frequency.exponentialRampToValueAtTime(2200, now + 0.35);
+    const riseGain = ac.createGain();
+    riseGain.gain.setValueAtTime(0.0001, now);
+    riseGain.gain.exponentialRampToValueAtTime(0.1, now + 0.3);
+    riseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
+    rise.connect(riseGain).connect(ac.destination);
+    rise.start(now); rise.stop(now + 0.5);
+
+    // 2) FM-warped carrier - the core "alien transmission" texture. The modulator
+    // speeds up over time, turning a calm tone into an unstable, otherworldly warble.
+    const carrier = ac.createOscillator();
+    carrier.type = 'sine';
+    carrier.frequency.setValueAtTime(560, now + 0.05);
+    const carrierGain = ac.createGain();
+    carrierGain.gain.setValueAtTime(0.0001, now);
+    carrierGain.gain.linearRampToValueAtTime(0.11, now + 0.2);
+    carrierGain.gain.setValueAtTime(0.11, now + total - 0.5);
+    carrierGain.gain.exponentialRampToValueAtTime(0.0001, now + total - 0.05);
+    const fm = ac.createOscillator();
+    fm.type = 'sine';
+    fm.frequency.setValueAtTime(6, now);
+    fm.frequency.exponentialRampToValueAtTime(120, now + total - 0.2);
+    const fmDepth = ac.createGain();
+    fmDepth.gain.setValueAtTime(180, now);
+    fmDepth.gain.linearRampToValueAtTime(950, now + total - 0.2);
+    fm.connect(fmDepth);
+    fmDepth.connect(carrier.frequency);
+    carrier.connect(carrierGain).connect(ac.destination);
+    fm.start(now); carrier.start(now);
+    fm.stop(now + total); carrier.stop(now + total);
+
+    // 3) Detuned drone underneath - a dissonant interval for unease, not resolving.
+    [523, 557].forEach((freq, i) => {
+      const d = ac.createOscillator();
+      d.type = 'triangle';
+      d.frequency.setValueAtTime(freq, now + 0.1);
+      const dGain = ac.createGain();
+      dGain.gain.setValueAtTime(0.0001, now);
+      dGain.gain.linearRampToValueAtTime(0.045, now + 0.3);
+      dGain.gain.setValueAtTime(0.045, now + total - 0.5);
+      dGain.gain.exponentialRampToValueAtTime(0.0001, now + total - 0.1);
+      d.connect(dGain).connect(ac.destination);
+      d.start(now + 0.1); d.stop(now + total);
+    });
+
+    // 4) Scattered digital stutters - erratic bursts across an extreme, unnatural range.
+    let t = now + 0.1;
+    while(t < now + total - 0.25){
+      const dur = 0.02 + Math.random() * 0.06;
+      const osc = ac.createOscillator();
+      osc.type = Math.random() > 0.5 ? 'square' : 'sawtooth';
+      const low = Math.random() > 0.6;
+      osc.frequency.setValueAtTime(low ? 30 + Math.random() * 90 : 1800 + Math.random() * 2400, t);
+      const g = ac.createGain();
+      g.gain.setValueAtTime(0.09, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      osc.connect(g).connect(ac.destination);
+      osc.start(t); osc.stop(t + dur);
+      t += dur * (0.5 + Math.random() * 1.4);
+    }
+
+    // 5) Static bursts - noise texture bleeding through, like a jammed feed.
+    for(let i = 0; i < 4; i++){
+      const st = now + 0.2 + Math.random() * (total - 0.6);
+      const noise = ac.createBufferSource();
+      noise.buffer = noiseBuffer(ac, 0.12);
+      const noiseFilter = ac.createBiquadFilter();
+      noiseFilter.type = 'bandpass';
+      noiseFilter.frequency.setValueAtTime(1500 + Math.random() * 2000, st);
+      const noiseGain = ac.createGain();
+      noiseGain.gain.setValueAtTime(0.1, st);
+      noiseGain.gain.exponentialRampToValueAtTime(0.0001, st + 0.12);
+      noise.connect(noiseFilter).connect(noiseGain).connect(ac.destination);
+      noise.start(st);
+    }
+
+    // 6) Power-down sweep - the "signal lost" finality at the very end.
+    const down = ac.createOscillator();
+    down.type = 'triangle';
+    down.frequency.setValueAtTime(500, now + total - 0.4);
+    down.frequency.exponentialRampToValueAtTime(18, now + total);
+    const downGain = ac.createGain();
+    downGain.gain.setValueAtTime(0.13, now + total - 0.4);
+    downGain.gain.exponentialRampToValueAtTime(0.0001, now + total);
+    down.connect(downGain).connect(ac.destination);
+    down.start(now + total - 0.4); down.stop(now + total + 0.05);
+  }
+  return { flashbang, explosion, smoke, glitch };
+})();
+
 // FLASHBANG - CS-style white screen flash
 (function(){
   const btn = document.getElementById('nav-flash');
   const overlay = document.getElementById('flash-overlay');
   if(!btn || !overlay) return;
   btn.addEventListener('click', () => {
+    fxSound.flashbang();
     overlay.classList.remove('active');
     void overlay.offsetWidth;
     overlay.classList.add('active');
@@ -1521,6 +1755,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
   const overlay = document.getElementById('explosion-overlay');
   if(!btn || !overlay) return;
   btn.addEventListener('click', () => {
+    fxSound.explosion();
     overlay.classList.remove('active');
     document.body.classList.remove('shake-active');
     void overlay.offsetWidth;
@@ -1537,6 +1772,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
   const overlay = document.getElementById('smoke-overlay');
   if(!btn || !overlay) return;
   btn.addEventListener('click', () => {
+    fxSound.smoke();
     overlay.classList.remove('active');
     void overlay.offsetWidth;
     overlay.classList.add('active');
@@ -1550,6 +1786,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
   const overlay = document.getElementById('glitch-overlay');
   if(!logo || !overlay) return;
   function trigger(){
+    fxSound.glitch();
     overlay.classList.remove('active');
     document.body.classList.remove('glitch-active');
     void overlay.offsetWidth;
