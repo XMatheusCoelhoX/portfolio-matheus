@@ -1445,7 +1445,11 @@ footer span{color:var(--acc);}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-gsap.registerPlugin(ScrollTrigger);
+// Guard against GSAP/ScrollTrigger failing to load (CDN block, ad-blocker, firewall, offline).
+// Everything below this point must keep working even if the CDN scripts above never arrive.
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+  try { gsap.registerPlugin(ScrollTrigger); } catch(e) {}
+}
 
 // MATRIX RAIN - interactive digital-rain background
 (function(){
@@ -1767,7 +1771,10 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
   }
 })();
 
-// HERO
+// HERO + all scroll-triggered decorative animations - guarded, since none of this
+// may exist if the GSAP CDN failed to load on this machine/network.
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+try {
 const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 heroTl
   .from('.hero-tag',   { opacity:0, y:30, duration:.7 })
@@ -1841,6 +1848,25 @@ document.querySelectorAll('.hb-n').forEach(el => {
 
 gsap.to('.hero-glow', { scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:1.5 }, y: -120, scale: 1.15, opacity:.4 });
 
+} catch(e) {}
+} // end GSAP-guarded block
+
+// NO-GSAP FALLBACK - runs only if GSAP never loaded, so the page is never stuck
+// with hidden content or empty (0%) skill bars on a machine that blocks the CDN.
+if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+  document.querySelectorAll(
+    '.hero-tag,.hero-name,.hero-sub,.hero-desc,.hero-btns,.hb-item,nav,' +
+    '.s-label,.s-title,.sobre-text p,.attr-row,.xp-card,.sk-card,.edu-card,.cert-card,' +
+    '.ct-box p,.ct-row,.reveal'
+  ).forEach(el => {
+    el.style.opacity = 1;
+    el.style.transform = 'none';
+    el.classList.add('visible');
+  });
+  document.querySelectorAll('.sk-fill').forEach(f => { f.style.width = (f.dataset.w || 0) + '%'; });
+}
+
+// Reveal fallback for elements using the .reveal class (independent of GSAP either way).
 const obs=new IntersectionObserver(entries=>{
   entries.forEach((e)=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
 },{threshold:.1});
