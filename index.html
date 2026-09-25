@@ -132,10 +132,6 @@ body{
 .rt-line.win{color:#fff;text-shadow:0 0 6px rgba(255,255,255,.5);font-weight:600;}
 .rt-cursor{display:inline-block;width:6px;height:11px;background:var(--acc);margin-left:2px;vertical-align:-1px;animation:blink 1s steps(1) infinite;}
 @keyframes rtIn{to{opacity:1;transform:translateY(0);}}
-@media (prefers-reduced-motion: reduce){
-  .rt-line{animation:none;opacity:1;transform:none;}
-  .rt-dot,.rt-cursor{animation:none;}
-}
 .ch-circle{
   position:absolute;top:2px;left:2px;width:40px;height:40px;
   border:1px solid rgba(57,255,20,.4);border-radius:50%;
@@ -322,14 +318,6 @@ body.shake-active{animation:screenShake .55s cubic-bezier(.36,.07,.19,.97);}
   100%{opacity:0;transform:scale(1.55) translateY(-40px);}
 }
 
-@media (prefers-reduced-motion: reduce){
-  .flash-overlay.active{animation:none;opacity:0;}
-  .explosion-overlay.active .explosion-flash,.explosion-overlay.active .explosion-fire,.explosion-overlay.active .explosion-ring,.explosion-overlay.active .explosion-smoke{animation:none;opacity:0;}
-  body.shake-active{animation:none;}
-  .smoke-overlay.active .smoke-puff,.smoke-overlay.active .smoke-wash{animation:none;opacity:0;}
-  .glitch-overlay.active *{animation:none;opacity:0;}
-  body.glitch-active{animation:none;filter:none;}
-}
 
 /* GLITCH SIGNAL - alien-interference effect on logo click */
 #nav-logo{cursor:pointer;}
@@ -1460,7 +1448,6 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
 (function(){
   const canvas = document.getElementById('matrix-bg');
   const ctx = canvas.getContext('2d');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const chars = 'アイウエオカキクケコサシスセソ0123456789ABCDEF#$%&*+-<>/\\';
   const fontSize = 15;
   let cols, drops, mouseX = -1000, mouseY = -1000;
@@ -1499,12 +1486,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     }
   }
 
-  if(!reduceMotion){
-    setInterval(draw, 45);
-  } else {
-    ctx.fillStyle = '#090909';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
+  setInterval(draw, 45);
 })();
 
 // SOUND FX - synthesized via Web Audio API, no external audio files (avoids
@@ -1872,8 +1854,6 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
     document.fonts.ready.then(positionPanels);
   }
 
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   const SCRIPT = [
     { t:'info', badge:'RECON',        d:120,  m:'$ nmap -sS -p- -T4 10.10.14.22' },
     { t:'muted',                       d:260,  m:'Starting Nmap 7.94 ( https://nmap.org )' },
@@ -1942,7 +1922,7 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
     const entry = SCRIPT[i];
     addLine(entry);
     if(entry.badge) setBadge(entry.badge, badgeClassFor(entry.t));
-    const delay = reduceMotion ? 40 : entry.d;
+    const delay = entry.d;
     timer = setTimeout(() => runStep(i + 1), delay);
   }
 
@@ -1984,7 +1964,7 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
       const t = setTimeout(() => {
         btAddLine(entry);
         if(entry.badge) btSetBadge(entry.badge, badgeClassFor(entry.t));
-      }, reduceMotion ? 0 : entry.at);
+      }, entry.at);
       btTimers.push(t);
     });
   }
