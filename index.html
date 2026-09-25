@@ -1854,6 +1854,8 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
     document.fonts.ready.then(positionPanels);
   }
 
+  const PACE = 3;
+
   const SCRIPT = [
     { t:'info', badge:'RECON',        d:120,  m:'$ nmap -sS -p- -T4 10.10.14.22' },
     { t:'muted',                       d:260,  m:'Starting Nmap 7.94 ( https://nmap.org )' },
@@ -1922,7 +1924,7 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
     const entry = SCRIPT[i];
     addLine(entry);
     if(entry.badge) setBadge(entry.badge, badgeClassFor(entry.t));
-    const delay = entry.d;
+    const delay = entry.d * PACE;
     timer = setTimeout(() => runStep(i + 1), delay);
   }
 
@@ -1964,7 +1966,7 @@ document.querySelectorAll('a,button,.xp-card,.sk-card,.edu-card,.cert-card').for
       const t = setTimeout(() => {
         btAddLine(entry);
         if(entry.badge) btSetBadge(entry.badge, badgeClassFor(entry.t));
-      }, entry.at);
+      }, entry.at * PACE);
       btTimers.push(t);
     });
   }
